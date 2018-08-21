@@ -1,9 +1,9 @@
-#.gitignoreİ’è
+#.gitignoreè¨­å®š
 
-#ƒTƒCƒY‚Ì‘å‚«‚¢ƒtƒ@ƒCƒ‹
+#ã‚µã‚¤ã‚ºã®å¤§ãã„ãƒ•ã‚¡ã‚¤ãƒ«
 *.wav
 
-#‚»‚Ì‘¼ŠO•”î•ñ+
+#ãã®ä»–å¤–éƒ¨æƒ…å ±+
 # Files built by Visual Studio
 *_i.c
 *_p.c
@@ -36,6 +36,8 @@
 
 .vs/
 [Dd]ebug/
+x64
+
 
 
 
