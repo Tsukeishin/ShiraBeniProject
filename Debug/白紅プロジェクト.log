@@ -1,4 +1,5 @@
-﻿  Camera.cpp
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets(76,5): warning : 別のプロセスで使用されているため、プロセスはファイル 'c:\users\aster\documents\redorhowitproject\debug\白紅プロジェクト.ilk' にアクセスできません。
+  Camera.cpp
   Counter.cpp
   DebugProcess.cpp
   Fade.cpp
@@ -12,4 +13,4 @@
   Result.cpp
   Title.cpp
   コードを生成中...
-  白紅プロジェクト.vcxproj -> C:\Users\User\Desktop\ゲーム作り\白紅プロジェクト\GitProject\Debug\白紅プロジェクト.exe
+  白紅プロジェクト.vcxproj -> C:\Users\aster\Documents\redOrHowitProject\Debug\白紅プロジェクト.exe
