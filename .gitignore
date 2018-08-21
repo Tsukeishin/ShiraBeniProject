@@ -35,8 +35,10 @@
 #Visual Studio 2017
 
 .vs/
+.vs/白紅プロジェクト/v15
 Browse.VC.db
 Browse.VC.opendb
 [Dd]ebug/
+Debug/
 
 
