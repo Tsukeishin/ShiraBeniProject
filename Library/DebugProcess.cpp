@@ -76,7 +76,7 @@ void DrawDebugProcess(void)
 	RECT rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 
 	// î•ñ•\¦
-	Dx9DebugFont->DrawText(NULL, DebugString, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xFF, 0xFF, 0x22, 0x44));
+	Dx9DebugFont->DrawText(NULL, DebugString, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xFF, 0x00, 0x00, 0x00));
 
 	// î•ñƒNƒŠƒA
 	memset(DebugString, 0, sizeof DebugString);
