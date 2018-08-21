@@ -3,12 +3,6 @@
 #サイズの大きいファイル
 *.wav
 
-#Visual Studio 2017
-
-.vs/
-Browse.VC.opendb
-[Dd]ebug/
-
 #その他外部情報+
 # Files built by Visual Studio
 *_i.c
@@ -37,3 +31,12 @@ Browse.VC.opendb
 *.pidb
 *.svclog
 *.scc
+
+#Visual Studio 2017
+
+.vs/
+Browse.VC.db
+Browse.VC.opendb
+[Dd]ebug/
+
+
