@@ -4,6 +4,7 @@
 *.wav
 
 #Visual Studio 2017
+
 .vs/
 Browse.VC.opendb
 [Dd]ebug/
