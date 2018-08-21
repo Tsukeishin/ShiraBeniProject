@@ -12,4 +12,5 @@
   Result.cpp
   Title.cpp
   コードを生成中...
-  白紅プロジェクト.vcxproj -> C:\Users\aster\Documents\redOrHowitProject\Debug\白紅プロジェクト.exe
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets(381,5): error MSB6003: 指定されたタスク実行可能ファイル "CL.exe" を実行できませんでした。要求された操作はユーザー マップ セクションで開いたファイルでは実行できません。
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets(381,5): error MSB6003: 
