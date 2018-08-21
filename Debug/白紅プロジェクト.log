@@ -1,15 +1,13 @@
-﻿  Camera.cpp
-  Counter.cpp
-  DebugProcess.cpp
-  Fade.cpp
-  Input.cpp
-  Light.cpp
-  Loading.cpp
-  ObjectBase2D.cpp
-  ObjectBase3D.cpp
-  Sound.cpp
-  Main.cpp
-  Result.cpp
-  Title.cpp
-  コードを生成中...
+﻿Title.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+Result.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+Sound.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+ObjectBase3D.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+ObjectBase2D.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+Loading.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+Light.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+Input.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+Fade.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+DebugProcess.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+Counter.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+Camera.obj : warning LNK4204: 'C:\Users\aster\Documents\redOrHowitProject\Debug\vc141.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
   白紅プロジェクト.vcxproj -> C:\Users\aster\Documents\redOrHowitProject\Debug\白紅プロジェクト.exe
