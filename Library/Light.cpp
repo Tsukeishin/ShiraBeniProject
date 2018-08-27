@@ -1,96 +1,58 @@
 //=============================================================================
 //
-// ライト処理 [Light.cpp]
+// ライト処理 <Light.cpp>
 //
 //=============================================================================
 #include "Light.h"
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	NUM_LIGHT		(3)		// ライトの数
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
+//----コンストラクタ--------
+Dx9Light::Dx9Light()
+{
+	this->Type = D3DLIGHT_DIRECTIONAL;
+	this->Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	this->Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	this->Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	this->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	this->Direction = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	this->Range = 0.0f;
+	this->Falloff = 0.0f;
+	this->Attenuation0 = 0.0f;
+	this->Attenuation1 = 0.0f;
+	this->Attenuation2 = 0.0f;
+	this->Theta = 0.0f;
+	this->Phi = 0.0f;
+}
 
-//*****************************************************************************
-// グローバル変数
-//*****************************************************************************
-D3DLIGHT9 g_aLight[NUM_LIGHT];		// ライト情報
+//----オーバーロード--------
+Dx9Light::operator D3DLIGHT9()
+{
+	D3DLIGHT9 light;
+	light.Type          = this->Type;
+	light.Diffuse       = this->Diffuse;
+	light.Specular      = this->Specular;
+	light.Ambient       = this->Ambient;
+	light.Position      = this->Position;
+	light.Direction     = this->Direction;
+	light.Range         = this->Range;
+	light.Falloff       = this->Falloff;
+	light.Attenuation0  = this->Attenuation0;
+	light.Attenuation1  = this->Attenuation1;
+	light.Attenuation2  = this->Attenuation2;
+	light.Theta         = this->Theta;
+	light.Phi           = this->Phi;
+	return light;
+}
 
-//=============================================================================
-// ライトの初期化処理
-//=============================================================================
-HRESULT InitLight(void)
+//----ライトを登録＆有効--------
+void Dx9Light::SetLight()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice(); 
 
-	D3DXVECTOR3 vecDir;
-
-	// D3DLIGHT9構造体を0でクリアする
-	ZeroMemory(&g_aLight[0], sizeof(D3DLIGHT9));
-
-	// ライトのタイプの設定
-	g_aLight[0].Type = D3DLIGHT_DIRECTIONAL;
-
-	// 拡散光
-	g_aLight[0].Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-	// 環境光
-	g_aLight[0].Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-	// ライトの方向の設定
-	vecDir = D3DXVECTOR3(-0.0f, -0.6f, -1.0f);
-	D3DXVec3Normalize( (D3DXVECTOR3*)&g_aLight[0].Direction, &vecDir );
-
 	// ライトをレンダリングパイプラインに設定
-	pDevice->SetLight(0, &g_aLight[0]);
+	pDevice->SetLight(0, &(D3DLIGHT9)*this);
 
 	// ライトの設定
 	pDevice->LightEnable(0, TRUE);
-
-
-	// D3DLIGHT9構造体を0でクリアする
-	ZeroMemory(&g_aLight[1], sizeof(D3DLIGHT9));
-
-	// ライトのタイプの設定
-	g_aLight[1].Type = D3DLIGHT_DIRECTIONAL;
-
-	// 拡散光
-	g_aLight[1].Diffuse = D3DXCOLOR(0.75f, 0.75f, 0.75f, 1.0f);
-
-	// 環境光
-	g_aLight[1].Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-    // ライトの方向の設定
-	vecDir = D3DXVECTOR3(-0.0f, -1.0f, 0.8f);
-	D3DXVec3Normalize((D3DXVECTOR3*)&g_aLight[1].Direction, &vecDir);
-
-	// ライトをレンダリングパイプラインに設定
-	pDevice->SetLight(1, &g_aLight[1]);
-
-	// ライトの設定
-	pDevice->LightEnable(1, TRUE);
-
-
-	// ライティングモード
-	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-
-	return S_OK;
-}
-
-//=============================================================================
-// ライトの終了処理
-//=============================================================================
-void UninitLight(void)
-{
-}
-
-//=============================================================================
-// ライトの更新処理
-//=============================================================================
-void UpdateLight(void)
-{
 }
 

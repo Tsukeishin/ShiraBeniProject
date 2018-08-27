@@ -6,26 +6,12 @@
 #include "title.h"
 #include "Library/Input.h"
 #include "Library/Fade.h"
-
+#include "Library/ObjectBase2D.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TITLE_TEX_BACK      "data/タイトル/Title.jpg"
-#define TITLE_TEX_LOGO      "data/タイトル/TitleLogo.png"
-#define TITLE_TEX_PRESSKEY  "data/タイトル/Press.png"
-#define TITLE_TEX_NEWGAME   "data/タイトル/NewGame.png"
-#define TITLE_TEX_COUNTINUE "data/タイトル/Countinue.png"
-#define TITLE_TEX_OPTION    "data/タイトル/Option.png"
 
-enum STATUSTITLE
-{
-	ST_PRESSKEY = 0,
-	ST_NEWGAME,
-	ST_COUNTINUE,
-	ST_OPTION,
-	ST_MAX
-};
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -35,14 +21,14 @@ enum STATUSTITLE
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-
+C2DObject TestPlayer;
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
 HRESULT InitTitle(void)
 {
-
+	TestPlayer.Init(100, 100, 50, 50, "data/TEXTURE/player.png");
 
 	return S_OK;
 }
@@ -52,7 +38,7 @@ HRESULT InitTitle(void)
 //=============================================================================
 void UninitTitle(void)
 {
-
+	TestPlayer.Release();
 }
 
 //=============================================================================
@@ -68,6 +54,6 @@ void UpdateTitle(void)
 //=============================================================================
 void DrawTitle(void)
 {
-
+	TestPlayer.Draw();
 }
 

@@ -22,6 +22,12 @@
     <Filter Include="GameSys">
       <UniqueIdentifier>{a7c455c5-d077-40dc-b1f2-c8ef44e695e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSys\Object">
+      <UniqueIdentifier>{a993de95-0ab3-4cda-bdc2-00e7e27fb1b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSys\Object\Player">
+      <UniqueIdentifier>{be8a4561-b319-4f73-ab2e-1b2694c9308c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -62,6 +68,12 @@
     </ClCompile>
     <ClCompile Include="Library\Counter.cpp">
       <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\WindowClass.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameSys\Object\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="Library\Camera.h">
       <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\WindowClass.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameSys\Object\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

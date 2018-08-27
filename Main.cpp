@@ -58,7 +58,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	DWORD dwCurrentTime;	// 現時刻保持
 	DWORD dwFrameCount;		// FPSカウンタ
 	DWORD dwHighTimer;		// 精密1Fタイマー
-							//	DWORD dwPrecisionTime;	// 精密1Sタイマー(現状でずれることがあったら使用する)
+//	DWORD dwPrecisionTime;	// 精密1Sタイマー(現状でずれることがあったら使用する)
 
 	WNDCLASSEX wcex =
 	{
@@ -102,11 +102,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	//フレームカウント初期化
 	timeBeginPeriod(1);
-	dwExecLastTime =
-		//	dwPrecisionTime =
-		dwFPSLastTime = timeGetTime();
-	dwCurrentTime =
-		dwFrameCount = 0;
+	dwExecLastTime =/* dwPrecisionTime =*/ dwFPSLastTime = timeGetTime();
+	dwCurrentTime = dwFrameCount = 0;
 
 	// ウインドウの表示(初期化処理の後に呼ばないと駄目)
 	ShowWindow(hWnd, nCmdShow);
@@ -284,23 +281,27 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		}
 	}
 
-	// レンダリングステートパラメータの設定
+	/* レンダリングステートパラメータの設定 */
 	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);				// 裏面をカリング
 	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);						// Zバッファを使用
 	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);				// αブレンドを行う
 	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);		// αソースカラーの指定
 	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);	// αデスティネーションカラーの指定
 
-																			// サンプラーステートパラメータの設定
+	/* サンプラーステートパラメータの設定 */
 	g_pD3DDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);	// テクスチャアドレッシング方法(U値)を設定
 	g_pD3DDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);	// テクスチャアドレッシング方法(V値)を設定
 	g_pD3DDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);	// テクスチャ縮小フィルタモードを設定
 	g_pD3DDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);	// テクスチャ拡大フィルタモードを設定
 
-																			// テクスチャステージ加算合成処理
+	/* テクスチャステージ加算合成処理 */
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);	// アルファブレンディング処理
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);	// 最初のアルファ引数
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);	// ２番目のアルファ引数
+
+	/* ライティングモードを有効 */
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
 
 	// 入力の初期化
 	InitInput(hInstance, hWnd);
