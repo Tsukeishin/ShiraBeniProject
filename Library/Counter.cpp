@@ -4,6 +4,7 @@
 //
 //=============================================================================
 #include "Counter.h"
+#include "Common.h"
 
 
 CountDown::CountDown()

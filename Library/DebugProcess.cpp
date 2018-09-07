@@ -4,6 +4,8 @@
 //
 //=============================================================================
 #include "DebugProcess.h"
+#include "Common.h"
+#include "Direct3D.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -25,7 +27,7 @@ char       DebugString[1024] = {"\0"};	// デバッグ情報
 //=============================================================================
 HRESULT InitDebugProcess(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 	HRESULT hr;
 
 	// 情報表示用フォントを設定
@@ -139,7 +141,7 @@ void PrintDebugProcess(const char *fmt,...)
 				else
 				{
 					// 可変引数にアクセスしてその変数を取り出す処理
-					sprintf(aWk, "%.5lf", va_arg(list, double));
+					sprintf(aWk, "%.3lf", va_arg(list, double));
 				}
 				break;
 

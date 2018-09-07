@@ -156,9 +156,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Library\Camera.cpp" />
+    <ClCompile Include="Library\Common.cpp" />
     <ClCompile Include="Library\Counter.cpp" />
     <ClCompile Include="Library\DebugProcess.cpp" />
+    <ClCompile Include="Library\Direct3D.cpp" />
     <ClCompile Include="Library\Fade.cpp" />
+    <ClCompile Include="Library\FPSManager.cpp" />
     <ClCompile Include="Library\Input.cpp" />
     <ClCompile Include="Library\Light.cpp" />
     <ClCompile Include="Library\Loading.cpp" />
@@ -173,9 +176,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Library\Camera.h" />
+    <ClInclude Include="Library\Common.h" />
     <ClInclude Include="Library\Counter.h" />
     <ClInclude Include="Library\DebugProcess.h" />
+    <ClInclude Include="Library\Direct3D.h" />
     <ClInclude Include="Library\Fade.h" />
+    <ClInclude Include="Library\FPSManager.h" />
     <ClInclude Include="Library\Input.h" />
     <ClInclude Include="Library\Light.h" />
     <ClInclude Include="Library\LinkLibrary.h" />

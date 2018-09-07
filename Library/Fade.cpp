@@ -4,7 +4,8 @@
 //
 //=============================================================================
 #include "Fade.h"
-
+#include "Common.h"
+#include "Direct3D.h"
 
 /* マクロ定義 */
 #define	FADE_RATE		(0.1f)		// フェード係数
@@ -57,7 +58,7 @@ void CSFade::Update(void)
 //----描画--------
 void CSFade::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_2D);

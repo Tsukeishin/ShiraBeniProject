@@ -4,6 +4,8 @@
 //
 //=============================================================================
 #include "Loading.h"
+#include "Common.h"
+#include "Direct3D.h"
 #include "Input.h"
 #include "Fade.h"
 
@@ -40,7 +42,7 @@ void CNowLoading::Progress(int per)
 	PercentGage.Update(percent);
 
 	/* 描画 */
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 
 	// バックバッファ＆Ｚバッファのクリア
 	pDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0x66, 0x88, 0xFF, 0xFF), 1.0f, 0);

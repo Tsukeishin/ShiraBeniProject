@@ -1,6 +1,8 @@
 #include "ObjectBase2D.h"
-#include <math.h>
+#include "Common.h"
+#include "Direct3D.h"
 #include "Math.h"
+#include <math.h>
 
 
 /* 最基底クラス */
@@ -57,7 +59,7 @@ int  _ObjectBase2D::Init()
 }
 void _ObjectBase2D::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_2D);
@@ -70,7 +72,7 @@ void _ObjectBase2D::Draw(void)
 }
 void _ObjectBase2D::Draw(LPDIRECT3DTEXTURE9 texture)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_2D);
@@ -188,7 +190,7 @@ void _ObjectBase2D::LoadTexture(const char *texture)
 		Texture->Release();
 		Texture = NULL;
 	}
-	D3DXCreateTextureFromFile(GetDevice(), texture, &Texture);
+	D3DXCreateTextureFromFile(Direct3D::GetD3DDevice(), texture, &Texture);
 }
 void _ObjectBase2D::LoadTexture(LPDIRECT3DTEXTURE9 texture)
 {

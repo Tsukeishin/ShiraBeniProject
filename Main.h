@@ -45,23 +45,9 @@
 // ３Ｄポリゴン頂点フォーマット( 頂点座標[3D] / 法線 / 反射光 / テクスチャ座標 )
 #define	FVF_VERTEX_3D	(D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 
-#define SCREEN_WIDTH	(1024)				// ウインドウの幅
-#define SCREEN_HEIGHT	(576)				// ウインドウの高さ
-#define SCREEN_CENTER_X	(SCREEN_WIDTH / 2)	// ウインドウの中心Ｘ座標
-#define SCREEN_CENTER_Y	(SCREEN_HEIGHT / 2)	// ウインドウの中心Ｙ座標
 
 #define	NUM_VERTEX		(4)		// 頂点数
 #define	NUM_POLYGON		(2)		// ポリゴン数
-
-
-/* マクロ関数 */
-#define RelativeSX(m) (SCREEN_WIDTH * m)
-#define RelativeSY(m) (SCREEN_HEIGHT * m)
-
-
-/* 代用マクロ */
-#define DXV2(x, y)    D3DXVECTOR2(x, y);
-#define DXV3(x, y, z) D3DXVECTOR3(x, y, z)
 
 
 /* ゲーム状態の種類 */
@@ -103,11 +89,7 @@ typedef struct
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-LPDIRECT3DDEVICE9 GetDevice(void);
-
 GAMESCENE SetGameScene(GAMESCENE scene);
-
-HWND GethWnd(void);
 
 
 #endif

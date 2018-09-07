@@ -1,4 +1,5 @@
 #include "ObjectBase3D.h"
+#include "Direct3D.h"
 #include <math.h>
 
 
@@ -16,7 +17,7 @@ void _ObjectBase3D::LoadTexture(const char *texture)
 		Texture->Release();
 		Texture = NULL;
 	}
-	D3DXCreateTextureFromFile(GetDevice(), texture, &Texture);
+	D3DXCreateTextureFromFile(Direct3D::GetD3DDevice(), texture, &Texture);
 }
 void _ObjectBase3D::LoadTexture(LPDIRECT3DTEXTURE9 texture)
 {
@@ -88,7 +89,7 @@ void C3DPolygonObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR2 size)
 //----描画処理--------
 void C3DPolygonObject::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 	D3DXMATRIX mtxRot, mtxTranslate, mtxWorld;
 
 	// αテスト設定
@@ -96,8 +97,8 @@ void C3DPolygonObject::Draw(void)
 	{
 		// αテストを有効に
 		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);		// ON
-		pDevice->SetRenderState(D3DRS_ALPHAREF, 125/*ALPHA_TEST_VALUE*/);	// 比較するαの値
-		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);	// 条件 (D3DCMP_GREATER)
+		pDevice->SetRenderState(D3DRS_ALPHAREF, 125);				// 比較するαの値
+		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);	// 条件(GREATER : 以上)
 	}
 
 	// ラインティングを無効にする (ライトを当てると変になる)
@@ -141,7 +142,7 @@ void C3DPolygonObject::Draw(void)
 int C3DPolygonObject::MakeVertex(void)
 {
 	// オブジェクトの頂点バッファを生成
-	if (FAILED(GetDevice()->CreateVertexBuffer(sizeof(VERTEX_3D) * NUM_VERTEX,	// 頂点データ用に確保するバッファサイズ(バイト単位)
+	if (FAILED(Direct3D::GetD3DDevice()->CreateVertexBuffer(sizeof(VERTEX_3D) * NUM_VERTEX,	// 頂点データ用に確保するバッファサイズ(バイト単位)
 		D3DUSAGE_WRITEONLY,		// 頂点バッファの使用法　
 		FVF_VERTEX_3D,			// 使用する頂点フォーマット
 		D3DPOOL_MANAGED,		// リソースのバッファを保持するメモリクラスを指定
@@ -290,7 +291,7 @@ void C3DCubeObject::LoadTexture(const char *texture)
 		Texture->Release();
 		Texture = NULL;
 	}
-	D3DXCreateTextureFromFile(GetDevice(), texture, &Texture);
+	D3DXCreateTextureFromFile(Direct3D::GetD3DDevice(), texture, &Texture);
 }
 void C3DCubeObject::Release()
 {
@@ -405,7 +406,7 @@ int  C3DCubeObject::MakeVertex()
 //----描画処理--------
 void C3DCubeObject::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
 
 	// αテスト設定

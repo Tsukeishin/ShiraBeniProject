@@ -75,6 +75,15 @@
     <ClCompile Include="Player.cpp">
       <Filter>GameSys\Object\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Library\FPSManager.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Direct3D.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Common.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -127,6 +136,15 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>GameSys\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\FPSManager.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Direct3D.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Common.h">
+      <Filter>Library</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,6 +4,8 @@
 //
 //=============================================================================
 #include "Camera.h"
+#include "Common.h"
+#include "Direct3D.h"
 #include "Input.h"
 
 // マクロ定義
@@ -212,7 +214,7 @@ void CCamera::FollowingFocus(D3DXVECTOR3 correction)
 //----マトリックス生成--------
 void CCamera::CreateMatrix(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 
 	/* ビューマトリックス */
 	// ビューマトリックスの初期化

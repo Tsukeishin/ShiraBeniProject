@@ -4,6 +4,7 @@
 //
 //=============================================================================
 #include "Light.h"
+#include "Direct3D.h"
 
 
 //----コンストラクタ--------
@@ -47,7 +48,7 @@ Dx9Light::operator D3DLIGHT9()
 //----ライトを登録＆有効--------
 void Dx9Light::SetLight()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice(); 
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 
 	// ライトをレンダリングパイプラインに設定
 	pDevice->SetLight(0, &(D3DLIGHT9)*this);
