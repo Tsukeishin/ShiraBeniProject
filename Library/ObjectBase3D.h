@@ -1,13 +1,16 @@
 #ifndef __CLASS_3D_OBJECT_BASE_H_INCLUDE__
 #define __CLASS_3D_OBJECT_BASE_H_INCLUDE__
 
-#include "LinkLibrary.h"
+
+#include "Texture.h"
+#include "Polygon.h"
+
 
 /* 3Dオブジェクト基礎クラス */
 class _ObjectBase3D
 {
 protected:
-	LPDIRECT3DTEXTURE9		Texture;
+	Dx9Texture              Texture;
 	LPDIRECT3DVERTEXBUFFER9 VtxBuff;
 
 public:
@@ -19,7 +22,7 @@ public:
 	virtual void Uninit() { this->Release(); };
 
 	virtual void LoadTexture(const char *texture);			// 前テクスチャはクリア(開放あり)
-	virtual void LoadTexture(LPDIRECT3DTEXTURE9 texture);	// 前テクスチャはリリース(開放なし)
+	virtual void LoadTexture(LPDx3DTex9 texture);	// 前テクスチャはリリース(開放なし)
 	virtual void Release();
 	virtual void ReleaseVertex();
 };
@@ -29,10 +32,10 @@ public:
 class C3DPolygonObject : public _ObjectBase3D
 {
 protected:
-	D3DXVECTOR3 Position;	// 位置座標
-	D3DXVECTOR3 Rotation;	// 回転角度
-	D3DXVECTOR2 Size;		// ポリゴンサイズ
-	float       Scale;		// サイズ倍率
+	Vector3 Position;	// 位置座標
+	Vector3 Rotation;	// 回転角度
+	Vector2 Size;		// ポリゴンサイズ
+	float   Scale;		// サイズ倍率
 
 	int TexPattern_X;		// テクスチャパターン（横）
 	int TexPattern_Y;		// テクスチャパターン（縦）
@@ -48,32 +51,25 @@ public:
 	C3DPolygonObject();
 
 	virtual void Init(float posX, float posY, float posZ, float sizX, float sizY);
-	virtual void Init(D3DXVECTOR3 pos, D3DXVECTOR2 size);
-	virtual void Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR2 size);
+	virtual void Init(Vector3 pos, Vector2 size);
+	virtual void Init(Vector3 pos, Vector3 rot, Vector2 size);
 	virtual void Draw(void);
 
 	virtual void LoadTextureStatus(float sizX, float sizY, float scale, int ptnX, int ptnY, int time);
 	virtual void LoadTextureStatus(float sizX, float sizY, float scale);
-	virtual void LoadObjectStatus(D3DXVECTOR3 pos);
-	virtual void LoadObjectStatus(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
-};
-
-/* 3D多数板ポリオブジェクト */
-class C3DMultiPolygonObject : public C3DPolygonObject
-{
-public:
-	void Release();
+	virtual void LoadObjectStatus(Vector3 pos);
+	virtual void LoadObjectStatus(Vector3 pos, Vector3 rot);
 };
 
 
 /* 3D六面体オブジェクト *///*
 class C3DCubeObject
 {
-	LPDIRECT3DTEXTURE9 Texture;
-	VERTEX_3D          Face[6][4];
-	D3DXVECTOR3 Position;	// 位置座標
-	D3DXVECTOR3 Rotation;	// 回転角度
-	D3DXVECTOR3 Size;		// ポリゴンサイズ
+	Dx9Texture Texture;
+	Vertex3D   Face[6][4];
+	Vector3 Position;	// 位置座標
+	Vector3 Rotation;	// 回転角度
+	Vector3 Size;		// ポリゴンサイズ
 
 public:
 	C3DCubeObject();
@@ -81,19 +77,39 @@ public:
 	void LoadTexture(const char *texture);
 	void Release();
 
-	int  Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 size);
-	int  Init(D3DXVECTOR3 pos, D3DXVECTOR3 size);
-	int  Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float size);
-	int  Init(D3DXVECTOR3 pos, float size);
+	int  Init(Vector3 pos, Vector3 rot, Vector3 size);
+	int  Init(Vector3 pos, Vector3 size);
+	int  Init(Vector3 pos, Vector3 rot, float size);
+	int  Init(Vector3 pos, float size);
 
 	void Draw();
 
 private:
 	int  MakeVertex(void);
-
 };
 
 
+/* モデル読み込みテスト *///*
+class C3DXModel
+{
+protected:
+	LPDIRECT3DTEXTURE9	Texture;	// テクスチャへのポインタ
+	LPD3DXMESH			Mesh;		// メッシュ情報へのポインタ
+	LPD3DXBUFFER		BuffMat;	// マテリアル情報へのポインタ
+	DWORD				NumMat;		// マテリアル情報の数
+
+public:
+	Vector3 Position;
+	Vector3 Rotation;
+	float   Scale;
+
+public:
+	C3DXModel();
+
+	int  Init(const char *filePath);
+	void Draw();
+	void Uninit();
+};
 
 
 

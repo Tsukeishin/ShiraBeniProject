@@ -6,7 +6,8 @@
 #ifndef __LIGHT_INCLUDE_H__
 #define __LIGHT_INCLUDE_H__
 
-#include "LinkLibrary.h"
+
+#include "Direct3D.h"
 
 
 class Dx9Light

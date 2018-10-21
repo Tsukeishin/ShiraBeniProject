@@ -3,6 +3,10 @@
 
 
 #include <d3dx9.h>
+#pragma comment (lib, "d3d9.lib")
+#pragma comment (lib, "d3dx9.lib")
+#pragma comment (lib, "dinput8.lib")
+#pragma comment (lib, "dxguid.lib")
 
 
 class Direct3D
@@ -18,6 +22,8 @@ public:
 	static LPDIRECT3DDEVICE9 GetD3DDevice();
 };
 
+
+#define Dx9SafeRelease( pointer ) if ( pointer != NULL ) { pointer->Release(); pointer = NULL; }
 
 
 #endif // !__DIRECTX9_3D_DEVICE_H_INCLUDE__

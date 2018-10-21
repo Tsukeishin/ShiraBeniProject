@@ -6,7 +6,10 @@
 #ifndef __DEBUGPROCESS_INCLUDE_H__
 #define __DEBUGPROCESS_INCLUDE_H__
 
-#include "LinkLibrary.h"
+
+#include "Common.h"
+#include <Windows.h>
+
 
 //*****************************************************************************
 // É}ÉNÉçíËã`

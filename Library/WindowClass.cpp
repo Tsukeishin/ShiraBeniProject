@@ -1,32 +1,35 @@
 #include "WindowClass.h"
 #include "Common.h"
-//#include "../resource.h"
+#include "../resource.h"
+#include <string.h>
 
 
 HINSTANCE   WindowClass::Instance = NULL;
 HWND        WindowClass::Handle = NULL;
 MSG         WindowClass::Message;
+LPCSTR      WindowClass::ClassName = "TsuApplication";
+LPCSTR      WindowClass::WindowName = "ツーアプリ";
 bool        WindowClass::WindowMode = true;
-char       *WindowClass::ClassName = (char*)"TsuApplication";
-char       *WindowClass::WindowName = (char*)"ツールテスト";
 
 
 //----Windowsの初期化処理--------
-HRESULT WindowClass::Init(HINSTANCE hInstance)
+HRESULT WindowClass::Init(HINSTANCE hInstance, LPCSTR className, LPCSTR windowName)
 {
 	Instance = hInstance;
+	ClassName = className;
+	WindowName = windowName;
 
 	// ウィンドウクラスを登録する
 	WNDCLASSEX wcex = {};
 
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.style = CS_CLASSDC;
-	wcex.lpfnWndProc = WindowProc;
+	wcex.lpfnWndProc = WindowProcess;
 	wcex.hInstance = Instance;
 	wcex.lpszClassName = ClassName;
 	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_BACKGROUND + 1);
-	//wcex.hIcon         = LoadIcon(Instance, MAKEINTRESOURCE(IDI_ICON1));
+	wcex.hIcon = LoadIcon(Instance, MAKEINTRESOURCE(IDI_ICON1));
 
 	// ウィンドウクラスの登録
 	RegisterClassEx(&wcex);
@@ -38,7 +41,7 @@ HRESULT WindowClass::Init(HINSTANCE hInstance)
 		ClassName,												//クラス名
 		WindowName,												//ウィンドウ名（タイトル）
 		(WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU),			//スタイル
-		((GetSystemMetrics(SM_CXSCREEN) - SCREEN_WIDTH) / 2),	//横方向の位置
+		((GetSystemMetrics(SM_CXSCREEN) - SCREEN_WIDTH)  / 2),	//横方向の位置
 		((GetSystemMetrics(SM_CYSCREEN) - SCREEN_HEIGHT) / 2),	//縦方向の位置
 		SCREEN_WIDTH + GetSystemMetrics(SM_CXDLGFRAME) * 2,									//幅
 		SCREEN_HEIGHT + GetSystemMetrics(SM_CXDLGFRAME) * 2 + GetSystemMetrics(SM_CYCAPTION),	//高さ
@@ -71,7 +74,7 @@ void WindowClass::Uninit(void)
 }
 
 //----プロシージャ--------
-LRESULT CALLBACK WindowClass::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WindowClass::WindowProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
@@ -161,5 +164,12 @@ void WindowClass::SetWindowSize(int x, int y)
 		x + GetSystemMetrics(SM_CXDLGFRAME) * 2,
 		y + GetSystemMetrics(SM_CXDLGFRAME) * 2 + GetSystemMetrics(SM_CYCAPTION),
 		SWP_NOZORDER | SWP_SHOWWINDOW);
+}
+
+
+RECT WindowClass::GetRect()
+{
+	RECT ret = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	return ret;
 }
 

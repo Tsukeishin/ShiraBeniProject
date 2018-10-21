@@ -7,7 +7,6 @@
 #define __LOADING_INCLUDE_H__
 
 
-#include "LinkLibrary.h"
 #include "ObjectBase2D.h"
 
 
@@ -18,7 +17,7 @@ public:
 	C2DObject        Text;
 	UI2DPercentGauge PercentGage;
 
-	void Init(GAMESCENE scene);
+	void Init();
 	void Uninit(void);
 	void Progress(int per);
 };

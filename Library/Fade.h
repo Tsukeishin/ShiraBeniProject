@@ -3,10 +3,11 @@
 // フェード処理 <Fade.h>
 //
 //=============================================================================
-#ifndef __FADE_INCLUDE_H__
-#define __FADE_INCLUDE_H__
+#ifndef __FADE_H_INCLUDE__
+#define __FADE_H_INCLUDE__
 
-#include "LinkLibrary.h"
+//#include "Texture.h"
+#include "Polygon.h"
 
 /* フェードの状態 */
 typedef enum
@@ -20,9 +21,9 @@ typedef enum
 
 class CSFade
 {
-	static VERTEX_2D	Vertex[NUM_VERTEX];
+	static Vertex2D		Vertex[RECT_NUM_VERTEX];
 	static D3DXCOLOR	Color;
-	static GAMESCENE	GameScene;
+//	static GAMESCENE	GameScene;
 	static FADE			Fade;
 	static float		Speed;
 
@@ -35,13 +36,10 @@ public:
 	static void SetColor(void);
 	static void SetFade(float spd);
 	static void SetFade(float spd, D3DCOLOR col);
-	static void SetFade(GAMESCENE scene);
-	static void SetFade(GAMESCENE scene, float spd);
-	static void SetFade(FADE fade, GAMESCENE scene, float spd);
+//	static void SetFade(GAMESCENE scene);
+//	static void SetFade(GAMESCENE scene, float spd);
+//	static void SetFade(FADE fade, GAMESCENE scene, float spd);
 	static FADE GetFade(void);
-
-private:
-
 
 };
 

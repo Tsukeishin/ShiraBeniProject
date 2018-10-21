@@ -4,8 +4,8 @@
 //
 //=============================================================================
 #include "DebugProcess.h"
-#include "Common.h"
 #include "Direct3D.h"
+#include <stdio.h>
 
 //*****************************************************************************
 // マクロ定義
@@ -78,7 +78,7 @@ void DrawDebugProcess(void)
 	RECT rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 
 	// 情報表示
-	Dx9DebugFont->DrawText(NULL, DebugString, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xFF, 0x00, 0x00, 0x00));
+	Dx9DebugFont->DrawText(NULL, DebugString, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xFF, 0xFF, 0xFF, 0xFF));
 
 	// 情報クリア
 	memset(DebugString, 0, sizeof DebugString);

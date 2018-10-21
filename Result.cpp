@@ -1,9 +1,9 @@
 //=============================================================================
 //
-// リザルト画面処理 [result.cpp]
+// リザルト画面処理 [Result.cpp]
 //
 //=============================================================================
-#include "result.h"
+#include "Result.h"
 #include "Library/Input.h"
 #include "Library/Fade.h"
 #include "Library/ObjectBase2D.h"

@@ -16,7 +16,7 @@
 
 
 //----èâä˙âª--------
-void CNowLoading::Init(GAMESCENE scene)
+void CNowLoading::Init()
 {
 	Back.LoadTexture(LOADING_TEX_BACK);
 	Text.Init(RelativeSX(0.8f), RelativeSY(0.8f), 200, 10, LOADING_TEX_TEXT);

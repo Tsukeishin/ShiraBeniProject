@@ -68,7 +68,7 @@ float FPSManager::DisplayFPS(int type)
 	switch (type)
 	{
 	case FPS_NORMAL:
-		if ((nowTime - DisNomal.LastTime) >= 2000)
+		if ((nowTime - DisNomal.LastTime) >= 500)
 		{
 			DisNomal.Display = (float)DisNomal.Count * 1000.0f / (float)(nowTime - DisNomal.LastTime);
 			DisNomal.LastTime = nowTime;
@@ -77,7 +77,7 @@ float FPSManager::DisplayFPS(int type)
 		return DisNomal.Display;
 
 	case FPS_EXACT:
-		if ((nowTime - DisExact.LastTime) >= 2000)
+		if ((nowTime - DisExact.LastTime) >= 500)
 		{
 			DisExact.Display = (float)DisExact.Count * 1000.0f / (float)(nowTime - DisExact.LastTime);
 			DisExact.LastTime = nowTime;

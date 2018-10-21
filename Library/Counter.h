@@ -8,7 +8,6 @@
 
 
 #include "ObjectBase2D.h"
-#include "LinkLibrary.h"
 
 
 class CountDown : public UI2DNumber

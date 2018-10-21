@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Library">
-      <UniqueIdentifier>{9ebe14d6-630f-4ef7-823c-7ea4217a4515}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{0c38a54f-3724-4814-94bb-7fdcd57182ec}</UniqueIdentifier>
     </Filter>
@@ -27,6 +24,9 @@
     </Filter>
     <Filter Include="GameSys\Object\Player">
       <UniqueIdentifier>{be8a4561-b319-4f73-ab2e-1b2694c9308c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Library">
+      <UniqueIdentifier>{9ebe14d6-630f-4ef7-823c-7ea4217a4515}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,55 +40,79 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Library\DebugProcess.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\Fade.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\Input.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\Light.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\Loading.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\ObjectBase2D.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\ObjectBase3D.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\Sound.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\Camera.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\Counter.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\WindowClass.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>GameSys\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="Library\FPSManager.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\Direct3D.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Library\Common.cpp">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\TsuLibSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Texture.cpp">
+      <Filter>_Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Polygon.cpp">
+      <Filter>_Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Vector.cpp">
+      <Filter>_Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Matrix.cpp">
+      <Filter>_Library</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>GameSys</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Dx9Font.cpp">
+      <Filter>_Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Dx9Line.cpp">
+      <Filter>_Library</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Main.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Result.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -96,55 +120,95 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Library\Counter.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\DebugProcess.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Fade.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Input.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Light.h">
-      <Filter>Library</Filter>
-    </ClInclude>
-    <ClInclude Include="Library\LinkLibrary.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Loading.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Math.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\ObjectBase2D.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\ObjectBase3D.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Sound.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Camera.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\WindowClass.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>GameSys\Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="Library\FPSManager.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Direct3D.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Common.h">
-      <Filter>Library</Filter>
+      <Filter>_Library</Filter>
     </ClInclude>
+    <ClInclude Include="Library\TsuLibSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Texture.h">
+      <Filter>_Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Polygon.h">
+      <Filter>_Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Vector.h">
+      <Filter>_Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Color.h">
+      <Filter>_Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Matrix.h">
+      <Filter>_Library</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>GameSys</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Dx9Font.h">
+      <Filter>_Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Dx9Line.h">
+      <Filter>_Library</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="白紅プロジェクト.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Icon.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
 </Project>

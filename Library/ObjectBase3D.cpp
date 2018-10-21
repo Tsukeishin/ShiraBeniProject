@@ -12,24 +12,15 @@ _ObjectBase3D::_ObjectBase3D()
 
 void _ObjectBase3D::LoadTexture(const char *texture)
 {
-	if (Texture != NULL)
-	{	// テクスチャの開放
-		Texture->Release();
-		Texture = NULL;
-	}
-	D3DXCreateTextureFromFile(Direct3D::GetD3DDevice(), texture, &Texture);
+	this->Texture.LoadTexture(texture);
 }
-void _ObjectBase3D::LoadTexture(LPDIRECT3DTEXTURE9 texture)
+void _ObjectBase3D::LoadTexture(LPDx3DTex9 texture)
 {
 	Texture = texture;
 }
 void _ObjectBase3D::Release()
 {
-	if (Texture != NULL)
-	{	// テクスチャの開放
-		Texture->Release();
-		Texture = NULL;
-	}
+	this->Texture.Release();
 	if (VtxBuff != NULL)
 	{	// 頂点の開放
 		VtxBuff->Release();
@@ -53,9 +44,9 @@ C3DPolygonObject::C3DPolygonObject()
 	Texture = NULL;		// テクスチャへのポインタ
 	VtxBuff = NULL;		// 頂点バッファインターフェースへのポインタ
 
-	Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 位置座標
-	Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 回転角度
-	Size = D3DXVECTOR2(0.0f, 0.0f);				// ポリゴンサイズ
+	Position = Vector3(0.0f, 0.0f, 0.0f);	// 位置座標
+	Rotation = Vector3(0.0f, 0.0f, 0.0f);	// 回転角度
+	Size = Vector2(0.0f, 0.0f);				// ポリゴンサイズ
 	Scale = 1.0f;								// サイズ倍率
 
 	TexPattern_X = 1;		// テクスチャパターン（横）
@@ -68,17 +59,17 @@ C3DPolygonObject::C3DPolygonObject()
 //----初期化--------
 void C3DPolygonObject::Init(float posX, float posY, float posZ, float sizX, float sizY)
 {
-	this->Position = D3DXVECTOR3(posX, posY, posZ);
-	this->Size = D3DXVECTOR2(sizX, sizY);
+	this->Position = Vector3(posX, posY, posZ);
+	this->Size = Vector2(sizX, sizY);
 	this->MakeVertex();
 }
-void C3DPolygonObject::Init(D3DXVECTOR3 pos, D3DXVECTOR2 size)
+void C3DPolygonObject::Init(Vector3 pos, Vector2 size)
 {
 	this->Position = pos;
 	this->Size = size;
 	this->MakeVertex();
 }
-void C3DPolygonObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR2 size)
+void C3DPolygonObject::Init(Vector3 pos, Vector3 rot, Vector2 size)
 {
 	this->Position = pos;
 	this->Rotation = rot;
@@ -92,14 +83,10 @@ void C3DPolygonObject::Draw(void)
 	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 	D3DXMATRIX mtxRot, mtxTranslate, mtxWorld;
 
-	// αテスト設定
-	//if (AlphaTestSwitch(0))
-	{
-		// αテストを有効に
-		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);		// ON
-		pDevice->SetRenderState(D3DRS_ALPHAREF, 125);				// 比較するαの値
-		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);	// 条件(GREATER : 以上)
-	}
+	// αテストを有効に
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);		// ON
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 125);				// 比較するαの値
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);	// 条件(GREATER : 以上)
 
 	// ラインティングを無効にする (ライトを当てると変になる)
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -128,7 +115,7 @@ void C3DPolygonObject::Draw(void)
 	pDevice->SetTexture(0, Texture);
 
 	// ポリゴンの描画
-	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
+	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, RECT_NUM_POLYGON);
 
 	// ラインティングを有効に戻す
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
@@ -142,7 +129,7 @@ void C3DPolygonObject::Draw(void)
 int C3DPolygonObject::MakeVertex(void)
 {
 	// オブジェクトの頂点バッファを生成
-	if (FAILED(Direct3D::GetD3DDevice()->CreateVertexBuffer(sizeof(VERTEX_3D) * NUM_VERTEX,	// 頂点データ用に確保するバッファサイズ(バイト単位)
+	if (FAILED(Direct3D::GetD3DDevice()->CreateVertexBuffer(sizeof(VERTEX_3D) * RECT_NUM_VERTEX,	// 頂点データ用に確保するバッファサイズ(バイト単位)
 		D3DUSAGE_WRITEONLY,		// 頂点バッファの使用法　
 		FVF_VERTEX_3D,			// 使用する頂点フォーマット
 		D3DPOOL_MANAGED,		// リソースのバッファを保持するメモリクラスを指定
@@ -159,16 +146,16 @@ int C3DPolygonObject::MakeVertex(void)
 		VtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 		// 頂点座標の設定
-		pVtx[0].vtx = D3DXVECTOR3(-Size.x,  Size.y, 0.0f);
-		pVtx[1].vtx = D3DXVECTOR3( Size.x,  Size.y, 0.0f);
-		pVtx[2].vtx = D3DXVECTOR3(-Size.x, -Size.y, 0.0f);
-		pVtx[3].vtx = D3DXVECTOR3( Size.x, -Size.y, 0.0f);
+		pVtx[0].coord = Vector3(-Size.x,  Size.y, 0.0f);
+		pVtx[1].coord = Vector3( Size.x,  Size.y, 0.0f);
+		pVtx[2].coord = Vector3(-Size.x, -Size.y, 0.0f);
+		pVtx[3].coord = Vector3( Size.x, -Size.y, 0.0f);
 
 		// 法線の設定
-		pVtx[0].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
-		pVtx[1].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
-		pVtx[2].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
-		pVtx[3].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+		pVtx[0].normal = Vector3(0.0f, 0.0f, -1.0f);
+		pVtx[1].normal = Vector3(0.0f, 0.0f, -1.0f);
+		pVtx[2].normal = Vector3(0.0f, 0.0f, -1.0f);
+		pVtx[3].normal = Vector3(0.0f, 0.0f, -1.0f);
 
 		// 反射光の設定
 		pVtx[0].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -177,10 +164,10 @@ int C3DPolygonObject::MakeVertex(void)
 		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 		// テクスチャ座標の設定
-		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-		pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-		pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-		pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+		pVtx[0].uv = Vector2(0.0f, 0.0f);
+		pVtx[1].uv = Vector2(1.0f, 0.0f);
+		pVtx[2].uv = Vector2(0.0f, 1.0f);
+		pVtx[3].uv = Vector2(1.0f, 1.0f);
 
 		// 頂点データをアンロックする
 		VtxBuff->Unlock();
@@ -199,10 +186,10 @@ void C3DPolygonObject::SetVertex(void)
 		VtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 		// 頂点座標の設定
-		pVtx[0].vtx = D3DXVECTOR3(-Size.x, Size.y, 0.0f);
-		pVtx[1].vtx = D3DXVECTOR3(Size.x, Size.y, 0.0f);
-		pVtx[2].vtx = D3DXVECTOR3(-Size.x, -Size.y, 0.0f);
-		pVtx[3].vtx = D3DXVECTOR3(Size.x, -Size.y, 0.0f);
+		pVtx[0].coord = Vector3(-Size.x, Size.y, 0.0f);
+		pVtx[1].coord = Vector3(Size.x, Size.y, 0.0f);
+		pVtx[2].coord = Vector3(-Size.x, -Size.y, 0.0f);
+		pVtx[3].coord = Vector3(Size.x, -Size.y, 0.0f);
 
 		// 頂点データをアンロックする
 		VtxBuff->Unlock();
@@ -217,10 +204,10 @@ void C3DPolygonObject::SetVertex(D3DXCOLOR color)
 		VtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 		// 頂点座標の設定
-		pVtx[0].vtx = D3DXVECTOR3(-Size.x, Size.y, 0.0f);
-		pVtx[1].vtx = D3DXVECTOR3(Size.x, Size.y, 0.0f);
-		pVtx[2].vtx = D3DXVECTOR3(-Size.x, -Size.y, 0.0f);
-		pVtx[3].vtx = D3DXVECTOR3(Size.x, -Size.y, 0.0f);
+		pVtx[0].coord = Vector3(-Size.x, Size.y, 0.0f);
+		pVtx[1].coord = Vector3(Size.x, Size.y, 0.0f);
+		pVtx[2].coord = Vector3(-Size.x, -Size.y, 0.0f);
+		pVtx[3].coord = Vector3(Size.x, -Size.y, 0.0f);
 
 		// 反射光の設定
 		pVtx[0].diffuse = color;
@@ -252,27 +239,16 @@ void C3DPolygonObject::LoadTextureStatus(float sizX, float sizY, float scale)
 }
 
 //----オブジェクト情報--------
-void C3DPolygonObject::LoadObjectStatus(D3DXVECTOR3 pos)
+void C3DPolygonObject::LoadObjectStatus(Vector3 pos)
 {
 	this->Position = pos;
 }
-void C3DPolygonObject::LoadObjectStatus(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+void C3DPolygonObject::LoadObjectStatus(Vector3 pos, Vector3 rot)
 {
 	this->Position = pos;
 	this->Rotation = rot;
 }
 
-
-/* 3D多数板ポリ */
-//----開放--------
-void C3DMultiPolygonObject::Release()
-{
-	if (VtxBuff != NULL)
-	{	// 頂点の開放
-		VtxBuff->Release();
-		VtxBuff = NULL;
-	}
-}
 
 
 /* 3D立方体 */
@@ -280,112 +256,103 @@ void C3DMultiPolygonObject::Release()
 C3DCubeObject::C3DCubeObject()
 {
 	this->Texture = NULL;
-	this->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	this->Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	this->Size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	this->Position = Vector3(0.0f, 0.0f, 0.0f);
+	this->Rotation = Vector3(0.0f, 0.0f, 0.0f);
+	this->Size = Vector3(0.0f, 0.0f, 0.0f);
 }
 void C3DCubeObject::LoadTexture(const char *texture)
 {
-	if (Texture != NULL)
-	{	// テクスチャの開放
-		Texture->Release();
-		Texture = NULL;
-	}
-	D3DXCreateTextureFromFile(Direct3D::GetD3DDevice(), texture, &Texture);
+	this->Texture.LoadTexture(texture);
 }
 void C3DCubeObject::Release()
 {
-	if (Texture != NULL)
-	{	// テクスチャの開放
-		Texture->Release();
-		Texture = NULL;
-	}
+	this->Texture.Release();
 }
 
 //----初期化------
-int  C3DCubeObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 size)
+int  C3DCubeObject::Init(Vector3 pos, Vector3 rot, Vector3 size)
 {
-	this->Position = D3DXVECTOR3( pos.x,  pos.y,  pos.z);
-	this->Rotation = D3DXVECTOR3( rot.x,  rot.y,  rot.z);
-	this->Size     = D3DXVECTOR3(size.x, size.y, size.z);
+	this->Position = Vector3( pos.x,  pos.y,  pos.z);
+	this->Rotation = Vector3( rot.x,  rot.y,  rot.z);
+	this->Size     = Vector3(size.x, size.y, size.z);
 	return this->MakeVertex();
 }
-int  C3DCubeObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+int  C3DCubeObject::Init(Vector3 pos, Vector3 size)
 {
-	this->Position = D3DXVECTOR3( pos.x,  pos.y,  pos.z);
-	this->Size     = D3DXVECTOR3(size.x, size.y, size.z);
+	this->Position = Vector3( pos.x,  pos.y,  pos.z);
+	this->Size     = Vector3(size.x, size.y, size.z);
 	return this->MakeVertex();
 }
-int  C3DCubeObject::Init(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float size)
+int  C3DCubeObject::Init(Vector3 pos, Vector3 rot, float size)
 {
-	this->Position = D3DXVECTOR3(pos.x, pos.y, pos.z);
-	this->Rotation = D3DXVECTOR3(rot.x, rot.y, rot.z);
-	this->Size     = D3DXVECTOR3( size,  size,  size);
+	this->Position = Vector3(pos.x, pos.y, pos.z);
+	this->Rotation = Vector3(rot.x, rot.y, rot.z);
+	this->Size     = Vector3( size,  size,  size);
 	return this->MakeVertex();
 }
-int  C3DCubeObject::Init(D3DXVECTOR3 pos, float size)
+int  C3DCubeObject::Init(Vector3 pos, float size)
 {
-	this->Position = D3DXVECTOR3(pos.x, pos.y, pos.z);
-	this->Size     = D3DXVECTOR3( size,  size,  size);
+	this->Position = Vector3(pos.x, pos.y, pos.z);
+	this->Size     = Vector3( size,  size,  size);
 	return this->MakeVertex();
 }
 
 //----頂点作成--------
 int  C3DCubeObject::MakeVertex()
 {
-	Face[0][0].vtx    = D3DXVECTOR3(-1.0f,  1.0f, -1.0f);//-Z
-	Face[0][1].vtx    = D3DXVECTOR3( 1.0f,  1.0f, -1.0f);
-	Face[0][2].vtx    = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
-	Face[0][3].vtx    = D3DXVECTOR3( 1.0f, -1.0f, -1.0f);
-	Face[0][0].normal = D3DXVECTOR3( 0.0f,  0.0f, -1.0f);
-	Face[0][1].normal = D3DXVECTOR3( 0.0f,  0.0f, -1.0f);
-	Face[0][2].normal = D3DXVECTOR3( 0.0f,  0.0f, -1.0f);
-	Face[0][3].normal = D3DXVECTOR3( 0.0f,  0.0f, -1.0f);
+	Face[0][0].coord  = Vector3(-1.0f,  1.0f, -1.0f);//-Z
+	Face[0][1].coord  = Vector3( 1.0f,  1.0f, -1.0f);
+	Face[0][2].coord  = Vector3(-1.0f, -1.0f, -1.0f);
+	Face[0][3].coord  = Vector3( 1.0f, -1.0f, -1.0f);
+	Face[0][0].normal = Vector3( 0.0f,  0.0f, -1.0f);
+	Face[0][1].normal = Vector3( 0.0f,  0.0f, -1.0f);
+	Face[0][2].normal = Vector3( 0.0f,  0.0f, -1.0f);
+	Face[0][3].normal = Vector3( 0.0f,  0.0f, -1.0f);
 
-	Face[1][0].vtx    = D3DXVECTOR3( 1.0f,  1.0f, -1.0f);//X
-	Face[1][1].vtx    = D3DXVECTOR3( 1.0f,  1.0f,  1.0f);
-	Face[1][2].vtx    = D3DXVECTOR3( 1.0f, -1.0f, -1.0f);
-	Face[1][3].vtx    = D3DXVECTOR3( 1.0f, -1.0f,  1.0f);
-	Face[1][0].normal = D3DXVECTOR3( 1.0f,  0.0f,  0.0f);
-	Face[1][1].normal = D3DXVECTOR3( 1.0f,  0.0f,  0.0f);
-	Face[1][2].normal = D3DXVECTOR3( 1.0f,  0.0f,  0.0f);
-	Face[1][3].normal = D3DXVECTOR3( 1.0f,  0.0f,  0.0f);
+	Face[1][0].coord  = Vector3( 1.0f,  1.0f, -1.0f);//X
+	Face[1][1].coord  = Vector3( 1.0f,  1.0f,  1.0f);
+	Face[1][2].coord  = Vector3( 1.0f, -1.0f, -1.0f);
+	Face[1][3].coord  = Vector3( 1.0f, -1.0f,  1.0f);
+	Face[1][0].normal = Vector3( 1.0f,  0.0f,  0.0f);
+	Face[1][1].normal = Vector3( 1.0f,  0.0f,  0.0f);
+	Face[1][2].normal = Vector3( 1.0f,  0.0f,  0.0f);
+	Face[1][3].normal = Vector3( 1.0f,  0.0f,  0.0f);
 
-	Face[2][0].vtx    = D3DXVECTOR3( 1.0f,  1.0f,  1.0f);//Z
-	Face[2][1].vtx    = D3DXVECTOR3(-1.0f,  1.0f,  1.0f);
-	Face[2][2].vtx    = D3DXVECTOR3( 1.0f, -1.0f,  1.0f);
-	Face[2][3].vtx    = D3DXVECTOR3(-1.0f, -1.0f,  1.0f);
-	Face[2][0].normal = D3DXVECTOR3( 0.0f,  0.0f,  1.0f);
-	Face[2][1].normal = D3DXVECTOR3( 0.0f,  0.0f,  1.0f);
-	Face[2][2].normal = D3DXVECTOR3( 0.0f,  0.0f,  1.0f);
-	Face[2][3].normal = D3DXVECTOR3( 0.0f,  0.0f,  1.0f);
+	Face[2][0].coord  = Vector3( 1.0f,  1.0f,  1.0f);//Z
+	Face[2][1].coord  = Vector3(-1.0f,  1.0f,  1.0f);
+	Face[2][2].coord  = Vector3( 1.0f, -1.0f,  1.0f);
+	Face[2][3].coord  = Vector3(-1.0f, -1.0f,  1.0f);
+	Face[2][0].normal = Vector3( 0.0f,  0.0f,  1.0f);
+	Face[2][1].normal = Vector3( 0.0f,  0.0f,  1.0f);
+	Face[2][2].normal = Vector3( 0.0f,  0.0f,  1.0f);
+	Face[2][3].normal = Vector3( 0.0f,  0.0f,  1.0f);
 
-	Face[3][0].vtx    = D3DXVECTOR3(-1.0f,  1.0f,  1.0f);//-X
-	Face[3][1].vtx    = D3DXVECTOR3(-1.0f,  1.0f, -1.0f);
-	Face[3][2].vtx    = D3DXVECTOR3(-1.0f, -1.0f,  1.0f);
-	Face[3][3].vtx    = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
-	Face[3][0].normal = D3DXVECTOR3(-1.0f,  0.0f,  0.0f);
-	Face[3][1].normal = D3DXVECTOR3(-1.0f,  0.0f,  0.0f);
-	Face[3][2].normal = D3DXVECTOR3(-1.0f,  0.0f,  0.0f);
-	Face[3][3].normal = D3DXVECTOR3(-1.0f,  0.0f,  0.0f);
+	Face[3][0].coord  = Vector3(-1.0f,  1.0f,  1.0f);//-X
+	Face[3][1].coord  = Vector3(-1.0f,  1.0f, -1.0f);
+	Face[3][2].coord  = Vector3(-1.0f, -1.0f,  1.0f);
+	Face[3][3].coord  = Vector3(-1.0f, -1.0f, -1.0f);
+	Face[3][0].normal = Vector3(-1.0f,  0.0f,  0.0f);
+	Face[3][1].normal = Vector3(-1.0f,  0.0f,  0.0f);
+	Face[3][2].normal = Vector3(-1.0f,  0.0f,  0.0f);
+	Face[3][3].normal = Vector3(-1.0f,  0.0f,  0.0f);
 
-	Face[4][0].vtx    = D3DXVECTOR3(-1.0f,  1.0f,  1.0f);//Y
-	Face[4][1].vtx    = D3DXVECTOR3( 1.0f,  1.0f,  1.0f);
-	Face[4][2].vtx    = D3DXVECTOR3(-1.0f,  1.0f, -1.0f);
-	Face[4][3].vtx    = D3DXVECTOR3( 1.0f,  1.0f, -1.0f);
-	Face[4][0].normal = D3DXVECTOR3( 0.0f,  1.0f,  0.0f);
-	Face[4][1].normal = D3DXVECTOR3( 0.0f,  1.0f,  0.0f);
-	Face[4][2].normal = D3DXVECTOR3( 0.0f,  1.0f,  0.0f);
-	Face[4][3].normal = D3DXVECTOR3( 0.0f,  1.0f,  0.0f);
+	Face[4][0].coord  = Vector3(-1.0f,  1.0f,  1.0f);//Y
+	Face[4][1].coord  = Vector3( 1.0f,  1.0f,  1.0f);
+	Face[4][2].coord  = Vector3(-1.0f,  1.0f, -1.0f);
+	Face[4][3].coord  = Vector3( 1.0f,  1.0f, -1.0f);
+	Face[4][0].normal = Vector3( 0.0f,  1.0f,  0.0f);
+	Face[4][1].normal = Vector3( 0.0f,  1.0f,  0.0f);
+	Face[4][2].normal = Vector3( 0.0f,  1.0f,  0.0f);
+	Face[4][3].normal = Vector3( 0.0f,  1.0f,  0.0f);
 
-	Face[5][0].vtx    = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);//-Y
-	Face[5][1].vtx    = D3DXVECTOR3( 1.0f, -1.0f, -1.0f);
-	Face[5][2].vtx    = D3DXVECTOR3(-1.0f, -1.0f,  1.0f);
-	Face[5][3].vtx    = D3DXVECTOR3( 1.0f, -1.0f,  1.0f);
-	Face[5][0].normal = D3DXVECTOR3( 0.0f, -1.0f,  0.0f);
-	Face[5][1].normal = D3DXVECTOR3( 0.0f, -1.0f,  0.0f);
-	Face[5][2].normal = D3DXVECTOR3( 0.0f, -1.0f,  0.0f);
-	Face[5][3].normal = D3DXVECTOR3( 0.0f, -1.0f,  0.0f);
+	Face[5][0].coord  = Vector3(-1.0f, -1.0f, -1.0f);//-Y
+	Face[5][1].coord  = Vector3( 1.0f, -1.0f, -1.0f);
+	Face[5][2].coord  = Vector3(-1.0f, -1.0f,  1.0f);
+	Face[5][3].coord  = Vector3( 1.0f, -1.0f,  1.0f);
+	Face[5][0].normal = Vector3( 0.0f, -1.0f,  0.0f);
+	Face[5][1].normal = Vector3( 0.0f, -1.0f,  0.0f);
+	Face[5][2].normal = Vector3( 0.0f, -1.0f,  0.0f);
+	Face[5][3].normal = Vector3( 0.0f, -1.0f,  0.0f);
 
 	for (int iCnt = 0; iCnt < 6; iCnt++)
 	{
@@ -394,10 +361,10 @@ int  C3DCubeObject::MakeVertex()
 		Face[iCnt][2].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		Face[iCnt][3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-		Face[iCnt][0].tex = D3DXVECTOR2(0.1f, 0.1f);
-		Face[iCnt][1].tex = D3DXVECTOR2(0.9f, 0.1f);
-		Face[iCnt][2].tex = D3DXVECTOR2(0.1f, 0.9f);
-		Face[iCnt][3].tex = D3DXVECTOR2(0.9f, 0.9f);
+		Face[iCnt][0].uv = Vector2(0.1f, 0.1f);
+		Face[iCnt][1].uv = Vector2(0.9f, 0.1f);
+		Face[iCnt][2].uv = Vector2(0.1f, 0.9f);
+		Face[iCnt][3].uv = Vector2(0.9f, 0.9f);
 	}
 
 	return 0;
@@ -409,14 +376,10 @@ void C3DCubeObject::Draw(void)
 	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
 
-	// αテスト設定
-	//if (AlphaTestSwitch(0))
-	{
-		// αテストを有効に
-		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);		// ON
-		pDevice->SetRenderState(D3DRS_ALPHAREF, 125/*ALPHA_TEST_VALUE*/);	// 比較するαの値
-		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);	// 条件 (D3DCMP_GREATER)
-	}
+	// αテストを有効に
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);		// ON
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 125);				// 比較するαの値
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);	// 条件 (D3DCMP_GREATER)
 
 	// ラインティングを無効にする (ライトを当てると変になる)
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -446,12 +409,12 @@ void C3DCubeObject::Draw(void)
 	pDevice->SetTexture(0, Texture);
 
 	// ポリゴンの描画
-	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, NUM_POLYGON, Face[0], sizeof(VERTEX_3D));
-	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, NUM_POLYGON, Face[1], sizeof(VERTEX_3D));
-	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, NUM_POLYGON, Face[2], sizeof(VERTEX_3D));
-	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, NUM_POLYGON, Face[3], sizeof(VERTEX_3D));
-	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, NUM_POLYGON, Face[4], sizeof(VERTEX_3D));
-	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, NUM_POLYGON, Face[5], sizeof(VERTEX_3D));
+	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, RECT_NUM_POLYGON, Face[0], sizeof(VERTEX_3D));
+	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, RECT_NUM_POLYGON, Face[1], sizeof(VERTEX_3D));
+	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, RECT_NUM_POLYGON, Face[2], sizeof(VERTEX_3D));
+	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, RECT_NUM_POLYGON, Face[3], sizeof(VERTEX_3D));
+	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, RECT_NUM_POLYGON, Face[4], sizeof(VERTEX_3D));
+	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, RECT_NUM_POLYGON, Face[5], sizeof(VERTEX_3D));
 
 	// ラインティングを有効に戻す
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
@@ -462,5 +425,96 @@ void C3DCubeObject::Draw(void)
 }
 
 
+/* モデル読み込みテスト *///*
+C3DXModel::C3DXModel()
+{
+	// 情報の初期化
+	Position = Vector3();
+	Rotation = Vector3();
+	Scale = 1.0f;
 
+	// モデル関係の初期化
+	Texture = NULL;
+	Mesh = NULL;
+	BuffMat = NULL;
+	NumMat = 0;
+}
+
+int C3DXModel::Init(const char *filePath)
+{
+	// 情報の初期化
+	Position = Vector3();
+	Rotation = Vector3();
+	Scale    = 1.0f;
+
+	// モデル関係の初期化
+	Texture = NULL;
+	Mesh    = NULL;
+	BuffMat = NULL;
+	NumMat  = 0;
+
+	// xファイルの読み込み
+	if (FAILED(D3DXLoadMeshFromX(filePath,
+		D3DXMESH_SYSTEMMEM,
+		Direct3D::GetD3DDevice(),
+		NULL,
+		&BuffMat,
+		NULL,
+		&NumMat,
+		&Mesh)))
+	{
+		return 1;
+	}
+	return 0;
+}
+
+void C3DXModel::Draw()
+{
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
+	D3DXMATERIAL *pD3DXMat;
+	D3DMATERIAL9 matDef;
+
+	/* モデルの描画 */
+	// 現在のマテリアルを取得
+	pDevice->GetMaterial(&matDef);
+
+	// マテリアル情報に対するポインタを取得
+	pD3DXMat = (D3DXMATERIAL*)BuffMat->GetBufferPointer();
+
+	for (int i = 0; i < (int)NumMat; i++)
+	{
+		// マテリアル設定
+		pDevice->SetMaterial(&pD3DXMat[i].MatD3D);
+
+		// テクスチャの設定
+		pDevice->SetTexture(0, Texture);
+
+		// 描画
+		Mesh->DrawSubset(i);
+	}
+
+	pDevice->SetMaterial(&matDef);	// マテリアルを元に戻す
+}
+
+void C3DXModel::Uninit()
+{
+	if (Texture != NULL)
+	{// テクスチャの開放
+		Texture->Release();
+		Texture = NULL;
+	}
+
+	// 3Dプレイヤーの解放
+	if (Mesh != NULL)
+	{// メッシュの開放
+		Mesh->Release();
+		Mesh = NULL;
+	}
+
+	if (BuffMat != NULL)
+	{// マテリアルの開放
+		BuffMat->Release();
+		BuffMat = NULL;
+	}
+}
 

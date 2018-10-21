@@ -4,11 +4,13 @@
 //
 //=============================================================================
 #include "Input.h"
+#include "Math.h"
+#include "WindowClass.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	NUM_KEY_MAX			(256)
+#define	NUM_KEY_MAX		(256)
 
 
 // game pad用設定値
@@ -53,9 +55,11 @@ LPDIRECTINPUTDEVICE8 pMouse = NULL;	// mouse
 
 DIMOUSESTATE2	mouseState;			// マウスのダイレクトな状態
 DIMOUSESTATE2	mouseTrigger;		// 押された瞬間だけON
+DIMOUSESTATE2	mouseRepeat;		// 押され続けたら
+DIMOUSESTATE2	mouseRelease;		// 離れた瞬間
+int				mouseRepeatCnt[8];	// マウスのリピートカウンタ
 
 POINT			s_MouseCursor;		// マウスカーソルの絶対位置(スクリーン)の取得
-CURSORSTATUS	MouseCursorView;	// マウスの表示状態
 
 //-------------------------- ゲームパッド (game pad)
 
@@ -303,8 +307,6 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 		return result;	
 	}
 	
-	MouseCursorView = CSR_HIDE;
-
 	// アクセス権を得る
 	pMouse->Acquire();
 	return result;
@@ -334,11 +336,31 @@ HRESULT UpdateMouse()
 		mouseTrigger.lX = mouseState.lX;
 		mouseTrigger.lY = mouseState.lY;
 		mouseTrigger.lZ = mouseState.lZ;
+
 		// マウスのボタン状態
 		for (int i = 0; i < 8; i++)
 		{
-			mouseTrigger.rgbButtons[i] = ((lastMouseState.rgbButtons[i] ^
-				mouseState.rgbButtons[i]) & mouseState.rgbButtons[i]);
+			mouseTrigger.rgbButtons[i] = (lastMouseState.rgbButtons[i] ^ mouseState.rgbButtons[i]) & 
+				mouseState.rgbButtons[i];
+
+			mouseRelease.rgbButtons[i] = (lastMouseState.rgbButtons[i] ^ mouseState.rgbButtons[i]) &
+				~mouseState.rgbButtons[i];
+			
+			mouseRepeat.rgbButtons[i] = 0;
+			if (mouseState.rgbButtons[i])
+			{
+				mouseRepeatCnt[i]++;
+				if (mouseRepeatCnt[i] >= 20)
+				{
+					mouseRepeat.rgbButtons[i] = mouseState.rgbButtons[i];
+				}
+			}
+			else
+			{
+				mouseRepeatCnt[i] = 0;
+				mouseRepeat.rgbButtons[i] = 0;
+			}
+
 		}
 	}
 	else	// 取得失敗
@@ -366,6 +388,17 @@ BOOL IsMouseLeftTriggered(void)
 {
 	return (BOOL)(mouseTrigger.rgbButtons[0] & 0x80);
 }
+//----リピート----
+BOOL IsMouseLeftRepeat(void)
+{
+	return (BOOL)(mouseRepeat.rgbButtons[0] & 0x80);
+}
+//----リリース----
+BOOL IsMouseLeftRelease(void)
+{
+	return (BOOL)(mouseRelease.rgbButtons[0] & 0x80);
+}
+
 //----------------------------------------------
 // 右ボタンの状態
 //----------------------------------------------
@@ -379,6 +412,16 @@ BOOL IsMouseRightTriggered(void)
 {
 	return (BOOL)(mouseTrigger.rgbButtons[1] & 0x80);
 }
+//----リピート----
+BOOL IsMouseRightRepeat(void)
+{
+	return (BOOL)(mouseRepeat.rgbButtons[1] & 0x80);
+}
+//----リリース----
+BOOL IsMouseRightRelease(void)
+{
+	return (BOOL)(mouseRelease.rgbButtons[1] & 0x80);
+}
 //----------------------------------------------
 // 中ボタンの状態
 //----------------------------------------------
@@ -391,6 +434,16 @@ BOOL IsMouseCenterPressed(void)
 BOOL IsMouseCenterTriggered(void)
 {
 	return (BOOL)(mouseTrigger.rgbButtons[2] & 0x80);
+}
+//----リピート----
+BOOL IsMouseCenterRepeat(void)
+{
+	return (BOOL)(mouseRepeat.rgbButtons[2] & 0x80);
+}
+//----リリース----
+BOOL IsMouseCenterRelease(void)
+{
+	return (BOOL)(mouseRelease.rgbButtons[2] & 0x80);
 }
 //----------------------------------------------
 // マウスのダイレクト情報
@@ -409,18 +462,29 @@ long GetMouseZ(void)
 	return mouseState.lZ;
 }
 //------------------ (座標)
-POINT GetMousePoint(void)
+POINT GetScreenMouse(void)
 {
 	return s_MouseCursor;
 }
-//------------------ (活動状態)
-CURSORSTATUS SetMouseCursorStatus(CURSORSTATUS status)
+Vector2 GetLocalMouse(void)
 {
-	if (status != CSR_MAX)
-	{
-		MouseCursorView = status;
-	}
-	return MouseCursorView;
+	/* マウスのスクリーン（グローバル）座標 */
+	X2<LONG> mousePoint = X2<LONG>(s_MouseCursor.x, s_MouseCursor.y);
+	
+	/* ウィンドウの左上座標を取得 */
+	RECT rect;
+	GetWindowRect(WindowClass::GetHWnd(), &rect);
+	X2<LONG> windowPoint = X2<LONG>(rect.left, rect.top);
+
+	/* ウィンドウ枠部の差分を計算し、Windowの原点のスクリーン座標を求める */
+	X2<LONG> windOrigin;
+	windOrigin.x = windowPoint.x + (LONG)GetSystemMetrics(SM_CXDLGFRAME);
+	windOrigin.y = windowPoint.y + (LONG)GetSystemMetrics(SM_CXDLGFRAME) + (LONG)GetSystemMetrics(SM_CYCAPTION);
+
+	/* マウスのローカル座標を求める */
+	X2<LONG> retCoord = mousePoint - windOrigin;
+
+	return Vector2((float)retCoord.x, (float)retCoord.y);
 }
 
 

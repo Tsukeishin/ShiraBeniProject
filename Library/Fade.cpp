@@ -12,9 +12,9 @@
 
 
 /* グローバル変数 */
-VERTEX_2D	CSFade::Vertex[NUM_VERTEX];
+VERTEX_2D	CSFade::Vertex[RECT_NUM_VERTEX];
 D3DXCOLOR	CSFade::Color     = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
-GAMESCENE	CSFade::GameScene = SCENE_MAX;
+//GAMESCENE	CSFade::GameScene = SCENE_MAX;
 FADE		CSFade::Fade      = FADE_IN;
 float		CSFade::Speed     = FADE_RATE;
 
@@ -29,11 +29,11 @@ void CSFade::Update(void)
 			if(Color.a > 1.1f)
 			{
 				// モードを設定
-				SetGameScene(GameScene);
+//				SetGameScene(GameScene);
 
 				// フェードイン処理に切り替え
 				Color.a = 1.0f;
-				SetFade(FADE_IN, SCENE_MAX, Speed);
+//				SetFade(FADE_IN, SCENE_MAX, Speed);
 			}
 
 			// 色を設定
@@ -46,7 +46,7 @@ void CSFade::Update(void)
 			{
 				// フェード処理終了
 				Color.a = 0.0f;
-				SetFade(FADE_NONE, SCENE_MAX, Speed);
+//				SetFade(FADE_NONE, SCENE_MAX, Speed);
 			}
 
 			// 色を設定
@@ -67,17 +67,17 @@ void CSFade::Draw(void)
 	pDevice->SetTexture(0, NULL);
 
 	// ポリゴンの描画
-	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, NUM_POLYGON, Vertex, sizeof(VERTEX_2D));
+	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, RECT_NUM_POLYGON, Vertex, sizeof(VERTEX_2D));
 }
 
 //----頂点作成--------
 void CSFade::MakeVertex(void)
 {
 	// 頂点座標の設定
-	Vertex[0].vtx = D3DXVECTOR3(        0.0f,          0.0f, 0.0f);
-	Vertex[1].vtx = D3DXVECTOR3(SCREEN_WIDTH,          0.0f, 0.0f);
-	Vertex[2].vtx = D3DXVECTOR3(        0.0f, SCREEN_HEIGHT, 0.0f);
-	Vertex[3].vtx = D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
+	Vertex[0].coord = Vector3(        0.0f,          0.0f, 0.0f);
+	Vertex[1].coord = Vector3(SCREEN_WIDTH,          0.0f, 0.0f);
+	Vertex[2].coord = Vector3(        0.0f, SCREEN_HEIGHT, 0.0f);
+	Vertex[3].coord = Vector3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
 
 	// テクスチャのパースペクティブコレクト用
 	Vertex[0].rhw = 1.0f;
@@ -92,10 +92,10 @@ void CSFade::MakeVertex(void)
 	Vertex[3].diffuse = Color;
 
 	// テクスチャ座標の設定
-	Vertex[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	Vertex[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	Vertex[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-	Vertex[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+	Vertex[0].uv = Vector2(0.0f, 0.0f);
+	Vertex[1].uv = Vector2(1.0f, 0.0f);
+	Vertex[2].uv = Vector2(0.0f, 1.0f);
+	Vertex[3].uv = Vector2(1.0f, 1.0f);
 }
 
 //----色を設定--------
@@ -116,38 +116,38 @@ void CSFade::SetColor(void)
 void CSFade::SetFade(float spd)
 {
 	Fade = FADE_OUT;
-	GameScene = SCENE_MAX;
+//	GameScene = SCENE_MAX;
 	Speed = spd;
 	Color = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
 }
 void CSFade::SetFade(float spd, D3DCOLOR col)
 {
 	Fade = FADE_OUT;
-	GameScene = SCENE_MAX;
+//	GameScene = SCENE_MAX;
 	Speed = spd;
 	Color = col;
 }
-void CSFade::SetFade(GAMESCENE scene)
-{
-	Fade = FADE_OUT;
-	GameScene = scene;
-	Speed = FADE_RATE;
-	Color = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
-}
-void CSFade::SetFade(GAMESCENE scene, float spd)
-{
-	Fade = FADE_OUT;
-	GameScene = scene;
-	Speed = spd;
-	Color = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
-}
-void CSFade::SetFade(FADE fade, GAMESCENE scene, float spd)
-{
-	Fade = fade;
-	GameScene = scene;
-	Speed = spd;
-	Color = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
-}
+//void CSFade::SetFade(GAMESCENE scene)
+//{
+//	Fade = FADE_OUT;
+//	GameScene = scene;
+//	Speed = FADE_RATE;
+//	Color = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
+//}
+//void CSFade::SetFade(GAMESCENE scene, float spd)
+//{
+//	Fade = FADE_OUT;
+//	GameScene = scene;
+//	Speed = spd;
+//	Color = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
+//}
+//void CSFade::SetFade(FADE fade, GAMESCENE scene, float spd)
+//{
+//	Fade = fade;
+//	GameScene = scene;
+//	Speed = spd;
+//	Color = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
+//}
 
 //----フェードの状態取得--------
 FADE CSFade::GetFade(void)

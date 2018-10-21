@@ -1,9 +1,9 @@
 //=============================================================================
 //
-// タイトル画面処理 [title.cpp]
+// タイトル画面処理 [Title.cpp]
 //
 //=============================================================================
-#include "title.h"
+#include "Title.h"
 #include "Library/Input.h"
 #include "Library/Fade.h"
 #include "Library/ObjectBase2D.h"

@@ -2,7 +2,7 @@
 #define __MANAGER_FPS_H_INCLUDE__
 
 
-#include <windows.h>
+#include <Windows.h>
 
 
 #define FPS_NORMAL  (0)
