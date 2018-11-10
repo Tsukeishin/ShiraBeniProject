@@ -1,5 +1,5 @@
 #include "SceneManager.h"
-#include "Library\Input.h"
+#include "Library/DirectInput.h"
 #include "Title.h"
 #include "Result.h"
 #include "GameManager.h"
@@ -17,7 +17,7 @@ int  SceneManager::Update()
 		// タイトルシーンの更新
 		UpdateTitle();
 
-		if (GetKeyboardTrigger(DIK_RETURN))
+		if (Keyboard::Trigger(DIK_RETURN))
 		{
 			SetScene(SCENE_GAME);
 		}
@@ -27,7 +27,7 @@ int  SceneManager::Update()
 		// ゲームシーンの更新
 		GameManager::Update();
 
-		if (GetKeyboardTrigger(DIK_RETURN))
+		if (Keyboard::Trigger(DIK_RETURN))
 		{
 			SetScene(SCENE_RESULT);
 		}
@@ -37,7 +37,7 @@ int  SceneManager::Update()
 		// リザルトシーンの更新
 		UpdateResult();
 
-		if (GetKeyboardTrigger(DIK_RETURN))
+		if (Keyboard::Trigger(DIK_RETURN))
 		{
 			SetScene(SCENE_TITLE);
 		}

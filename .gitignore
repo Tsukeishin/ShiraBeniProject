@@ -1,4 +1,4 @@
-#.gitignore設定
+﻿#.gitignore設定
 
 #サイズの大きいファイル
 *.wav
@@ -36,6 +36,7 @@
 
 .vs/
 [Dd]ebug/
+[Ll]ocal/
 x64
 
 

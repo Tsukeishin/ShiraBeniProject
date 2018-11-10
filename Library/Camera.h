@@ -7,7 +7,6 @@
 #define _CAMERA_INCLUDE_H_
 
 #include "Common.h"
-#include "Math.h"
 #include "Vector.h"
 #include <Windows.h>
 
@@ -46,16 +45,15 @@ enum CAMERA_STATUS
 class CCamera
 {
 public:
-	D3DXVECTOR3		Position;			// カメラの座標
-	D3DXVECTOR3		Gaze;				// カメラの視線先
-	D3DXVECTOR3		UpVector;			// カメラの上方向ベクトル
-	D3DXVECTOR3		Angle;				// カメラのアングル
+	D3DXVECTOR3 Position;			// カメラの座標
+	D3DXVECTOR3 Gaze;				// カメラの視線先
+	D3DXVECTOR3 UpVector;			// カメラの上方向ベクトル
+	D3DXVECTOR3 Angle;				// カメラのアングル
+	float       Interval;			// カメラの視点と視線先の距離
+	float       Sensitivity;		// マウス感度
 
-	float			Interval;			// カメラの視点と視線先の距離
-	float			Sensitivity;		// マウス感度
-
-	D3DXMATRIX		ViewMatrix;			// ビューマトリックス
-	D3DXMATRIX		ProjectionMatrix;	// プロジェクションマトリックス
+	D3DXMATRIX  ViewMatrix;			// ビューマトリックス
+	D3DXMATRIX  ProjectionMatrix;	// プロジェクションマトリックス
 
 public:
 	CCamera();
@@ -63,11 +61,11 @@ public:
 
 	void Init(void);
 
-	void Translation(D3DXVECTOR2 moveRate);
-	void Rotation(D3DXVECTOR2 moveRate);
+	void Translation(Vector2 moveRate);
+	void Rotation(Vector2 moveRate);
 	void Scaling(float moveRate);
-	void FollowingFocus(D3DXVECTOR3 correction);
-	void Tracking(D3DXVECTOR3 target);
+	void FollowingFocus(Vector3 correction);
+	void Tracking(Vector3 target);
 
 	void CreateMatrix(void);
 
@@ -83,10 +81,10 @@ private:
 //*****************************************************************************
 HRESULT InitCamera(void);
 void UninitCamera(void);
-void UpdateCamera(D3DXVECTOR3 target);
+void UpdateCamera();
 void SetCamera(void);
 
-D3DXMATRIX GetMtxView(void);
+D3DXMATRIX GetViewMatrix(void);
 D3DXMATRIX GetProjectionMatrix(void);
 
 #endif

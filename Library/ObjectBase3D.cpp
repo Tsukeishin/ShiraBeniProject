@@ -1,5 +1,6 @@
 #include "ObjectBase3D.h"
 #include "Direct3D.h"
+#include "Matrix.h"
 #include <math.h>
 
 
@@ -223,7 +224,7 @@ void C3DPolygonObject::SetVertex(D3DXCOLOR color)
 //----テクスチャ情報書き込み--------
 void C3DPolygonObject::LoadTextureStatus(float sizX, float sizY, float scale, int ptnX, int ptnY, int time)
 {
-	Size = { sizX, sizY };
+	Size = Vector2(sizX, sizY);
 	Scale = scale;
 	TexPattern_X = ptnX;
 	TexPattern_Y = ptnY;
@@ -231,7 +232,7 @@ void C3DPolygonObject::LoadTextureStatus(float sizX, float sizY, float scale, in
 }
 void C3DPolygonObject::LoadTextureStatus(float sizX, float sizY, float scale)
 {
-	Size = { sizX, sizY };
+	Size = Vector2(sizX, sizY);
 	Scale = scale;
 	TexPattern_X = 1;
 	TexPattern_Y = 1;
@@ -263,6 +264,10 @@ C3DCubeObject::C3DCubeObject()
 void C3DCubeObject::LoadTexture(const char *texture)
 {
 	this->Texture.LoadTexture(texture);
+}
+void C3DCubeObject::LoadTexture(LPDx3DTex9 texture)
+{
+	Texture = texture;
 }
 void C3DCubeObject::Release()
 {
@@ -374,30 +379,19 @@ int  C3DCubeObject::MakeVertex()
 void C3DCubeObject::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
-	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
 
 	// αテストを有効に
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);		// ON
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 125);				// 比較するαの値
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);	// 条件 (D3DCMP_GREATER)
 
-	// ラインティングを無効にする (ライトを当てると変になる)
-	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	// ラインティングを無効にする
+	DWORD light = false;
+	pDevice->GetRenderState(D3DRS_LIGHTING, &light);
+	if (light) pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&mtxWorld);
-
-	// サイズを反映
-	D3DXMatrixScaling(&mtxScl, Size.x, Size.y, Size.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
-
-	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, Rotation.y, Rotation.x, Rotation.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
-
-	// 移動を反映
-	D3DXMatrixTranslation(&mtxTranslate, Position.x, Position.y, Position.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
+	DxMatrix mtxWorld;
+	CreateMatrix(&mtxWorld, Size, Rotation, Position);
 
 	// ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
@@ -417,7 +411,7 @@ void C3DCubeObject::Draw(void)
 	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, RECT_NUM_POLYGON, Face[5], sizeof(VERTEX_3D));
 
 	// ラインティングを有効に戻す
-	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	if (light) pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	// αテストを無効に
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);

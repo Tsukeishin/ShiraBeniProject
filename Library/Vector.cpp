@@ -86,6 +86,12 @@ bool Vector2::operator!=(const Vector2 v) const
 	return (this->x != v.x) && (this->y != v.y);
 }
 
+Vector2 & Vector2::operator=(const D3DXVECTOR2 v)
+{
+	this->x = v.x;
+	this->y = v.y;
+	return *this;
+}
 Vector2::operator D3DXVECTOR2() const
 {
 	return D3DXVECTOR2(this->x, this->y);
@@ -197,6 +203,13 @@ bool Vector3::operator!=(const Vector3 v) const
 	return (this->x != v.x) && (this->y != v.y) && (this->z != v.z);
 }
 
+Vector3 & Vector3::operator=(const D3DXVECTOR3 v)
+{
+	this->x = v.x;
+	this->y = v.y;
+	this->z = v.z;
+	return *this;
+}
 Vector3::operator D3DXVECTOR3() const
 {
 	return D3DXVECTOR3(this->x, this->y, this->z);

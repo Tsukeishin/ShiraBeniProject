@@ -45,9 +45,6 @@
     <ClCompile Include="Library\Fade.cpp">
       <Filter>_Library</Filter>
     </ClCompile>
-    <ClCompile Include="Library\Input.cpp">
-      <Filter>_Library</Filter>
-    </ClCompile>
     <ClCompile Include="Library\Light.cpp">
       <Filter>_Library</Filter>
     </ClCompile>
@@ -111,6 +108,15 @@
     <ClCompile Include="Library\Dx9Line.cpp">
       <Filter>_Library</Filter>
     </ClCompile>
+    <ClCompile Include="Library\MultiRendering.cpp">
+      <Filter>_Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Dx9ScreenShot.cpp">
+      <Filter>_Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\DirectInput.cpp">
+      <Filter>_Library</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Result.h">
@@ -126,9 +132,6 @@
       <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Fade.h">
-      <Filter>_Library</Filter>
-    </ClInclude>
-    <ClInclude Include="Library\Input.h">
       <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Light.h">
@@ -198,6 +201,15 @@
       <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\Dx9Line.h">
+      <Filter>_Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\MultiRendering.h">
+      <Filter>_Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Dx9ScreenShot.h">
+      <Filter>_Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\DirectInput.h">
       <Filter>_Library</Filter>
     </ClInclude>
   </ItemGroup>

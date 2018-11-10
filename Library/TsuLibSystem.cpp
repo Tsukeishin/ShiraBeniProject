@@ -2,7 +2,7 @@
 #include "WindowClass.h"
 #include "Direct3D.h"
 #include "Dx9Line.h"
-#include "Input.h"
+#include "DirectInput.h"
 #include "Sound.h"
 #include "DebugProcess.h"
 
@@ -17,7 +17,7 @@ HRESULT TSULibrarySystem::Initialize(HINSTANCE hInstance)
 		return -1;
 
 	// インプット初期化
-	if (FAILED(InitInput(WindowClass::GetHInstance(), WindowClass::GetHWnd())))
+	if (FAILED(DirectInput::Init(WindowClass::GetHInstance(), WindowClass::GetHWnd())))
 		return -1;
 
 	// サウンド初期化
@@ -38,7 +38,7 @@ void TSULibrarySystem::Uninitialize()
 {
 	WindowClass::Uninit();	// ウィンドウ終了
 	Direct3D::Uninit();		// グラフィックス終了(Direct3D)
-	UninitInput();			// 入力の終了処理
+	DirectInput::Uninit();	// 入力の終了処理
 	DirectSound::Uninit();	// サウンド終了処理
 	Dx9Line::Uninit();		// Dx9Line終了処理
 	UninitDebugProcess();	// デバッグ表示処理の終了処理
@@ -93,9 +93,7 @@ void TSULibrarySystem::CoordinateAxis()
 	DWORD lightState;
 	pDevice->GetRenderState(D3DRS_LIGHTING, &lightState);
 	if (lightState)
-	{
 		pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-	}
 
 	pDevice->SetStreamSource(0, lineVtxBuff, 0, sizeof(caLine));
 	pDevice->SetFVF(CAFVF);
@@ -105,9 +103,7 @@ void TSULibrarySystem::CoordinateAxis()
 
 	// ラインティングを有効に戻す
 	if (lightState)
-	{
 		pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-	}
 
 }
 

@@ -4,8 +4,9 @@
 //
 //=============================================================================
 #include "Camera.h"
+#include "Math.h"
 #include "Direct3D.h"
-#include "Input.h"
+#include "DirectInput.h"
 #include "DebugProcess.h"
 
 
@@ -52,7 +53,7 @@ void CCamera::Init(void)
 }
 
 //----平行移動--------
-void CCamera::Translation(D3DXVECTOR2 moveRate)
+void CCamera::Translation(Vector2 moveRate)
 {
 	/* 十字ベクトル */
 	D3DXVECTOR3 LeftVec, FrontVec;
@@ -66,7 +67,7 @@ void CCamera::Translation(D3DXVECTOR2 moveRate)
 	D3DXVec3Normalize(&gazeVec, &gazeVec);
 
 	/* 視点平行移動 */
-	if (IsMouseCenterPressed())
+	if (Mouse::CPressed())
 	{
 		Gaze += LeftVec *  moveRate.x * CAMERA_MOVE_VALUE;
 		Gaze += FrontVec * moveRate.y * CAMERA_MOVE_VALUE;
@@ -93,19 +94,15 @@ void CCamera::Scaling(float moveRate)
 }
 
 //----旋回移動--------
-void CCamera::Rotation(D3DXVECTOR2 moveRate)
+void CCamera::Rotation(Vector2 moveRate)
 {
 	/* カメラ位置 */
 	// 移動判定
-	if (IsMouseLeftPressed())
+	if (Mouse::LPressed())
 	{
 		Angle.x -= moveRate.y * Sensitivity;
 		Angle.z -= moveRate.x * Sensitivity;
 		Angle.y += moveRate.x * Sensitivity;
-	}
-	if (GetKeyboardPress(DIK_LSHIFT))
-	{
-		Angle.z -= 0.05f;
 	}
 	/* 移動範囲制限 */
 	if (Angle.x > D3DXToRadian(179))
@@ -137,9 +134,9 @@ void CCamera::Rotation(D3DXVECTOR2 moveRate)
 }
 
 //----追尾--------
-void CCamera::Tracking(D3DXVECTOR3 target)
+void CCamera::Tracking(Vector3 target)
 {
-	Gaze = target + D3DXVECTOR3(50.0f, 0.0f, 0.0f);
+	Gaze = target + Vector3(50.0f, 0.0f, 0.0f);
 	Position.x = 0.0f;
 	Position.y = Interval * sinf(D3DXToRadian(CAMERA_ANGLE));
 	Position.z = Interval * -cosf(D3DXToRadian(CAMERA_ANGLE));
@@ -147,7 +144,7 @@ void CCamera::Tracking(D3DXVECTOR3 target)
 }
 
 //----視線先追従--------
-void CCamera::FollowingFocus(D3DXVECTOR3 correction)
+void CCamera::FollowingFocus(Vector3 correction)
 {
 	Position = Gaze + correction;
 }
@@ -230,12 +227,12 @@ void UninitCamera(void)
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateCamera(D3DXVECTOR3 target)
+void UpdateCamera()
 {
 	// ゲームカメラ
-	GameCamera.Rotation(D3DXVECTOR2((float)GetMouseX(), (float)GetMouseY()));
-	GameCamera.Translation(D3DXVECTOR2((float)GetMouseX(), (float)GetMouseY()));
-	GameCamera.Scaling((float)GetMouseZ());
+	//GameCamera.Rotation(D3DXVECTOR2((float)GetMouseX(), (float)GetMouseY()));
+	//GameCamera.Translation(D3DXVECTOR2((float)GetMouseX(), (float)GetMouseY()));
+	//GameCamera.Scaling((float)GetMouseZ());
 }
 
 //=============================================================================
@@ -264,7 +261,7 @@ void SetCamera(void)
 //=============================================================================
 // マトリックス取得関数
 //=============================================================================
-D3DXMATRIX GetMtxView(void)
+D3DXMATRIX GetViewMatrix(void)
 {
 	return GameCamera.GetViewMatrix();
 }
