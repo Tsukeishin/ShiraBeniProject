@@ -28,6 +28,9 @@
     <Filter Include="_Library">
       <UniqueIdentifier>{9ebe14d6-630f-4ef7-823c-7ea4217a4515}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSys\Object\Enemy">
+      <UniqueIdentifier>{7a06889c-3fde-4c4e-864b-256b606f48ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -110,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="Library\Dx9Line.cpp">
       <Filter>_Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>GameSys\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Library\Dx9Line.h">
       <Filter>_Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameSys\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
