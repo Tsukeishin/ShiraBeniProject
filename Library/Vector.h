@@ -40,6 +40,7 @@ public:
 	Vector2 Normalized(void);
 
 	/* DirectX9 */
+	Vector2 & operator = (const D3DXVECTOR2 v);
 	operator D3DXVECTOR2() const;
 
 };
@@ -82,6 +83,7 @@ public:
 	Vector2 ToVector2(void) const;
 
 	/* DirectX9 */
+	Vector3 & operator = (const D3DXVECTOR3 v);
 	operator D3DXVECTOR3() const;
 
 };

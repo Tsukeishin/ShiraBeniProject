@@ -8,7 +8,7 @@
 #include "Library/WindowClass.h"
 #include "Library/Direct3D.h"
 #include "Library/FPSManager.h"
-#include "Library/Input.h"
+#include "Library/DirectInput.h"
 #include "Library/Sound.h"
 #include "Library/Fade.h"
 #include "Library/Camera.h"
@@ -123,9 +123,9 @@ void Uninit(void)
 void Update(void)
 {
 	// 入力の更新処理
-	UpdateInput();
+	DirectInput::Update();
 
-	if (GetKeyboardTrigger(DIK_F3))
+	if (Keyboard::Trigger(DIK_F3))
 	{// デバッグ表示ON/OFF
 		g_bDispDebug = g_bDispDebug ? false : true;
 	}
@@ -150,12 +150,14 @@ void Draw(void)
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(Direct3D::GetD3DDevice()->BeginScene()))
 	{
+		// 3軸ガイドライン
+		TsuSystem::CoordinateAxis();
+
 		// シーンの描画
 		Scene::Draw();
 
 		// フェード描画
 		CSFade::Draw();
-		TsuSystem::CoordinateAxis();
 
 		// デバッグ表示の描画処理
 		if (g_bDispDebug)

@@ -6,7 +6,6 @@
 #include "Loading.h"
 #include "Common.h"
 #include "Direct3D.h"
-#include "Input.h"
 #include "Fade.h"
 
 

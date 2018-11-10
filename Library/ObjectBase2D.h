@@ -29,8 +29,9 @@ public:
 
 	virtual void SetVertex(float sizeX, float sizeY, float posX, float posY);	// 頂点座標設定
 	virtual void SetVertex(float sizeX, float sizeY);
-	virtual void SetVertex(D3DXCOLOR color);
-	virtual void SetTexture(int num, int ix, int iy);	// テクスチャ座標設定
+	virtual void SetVertex(DxColor dif);
+	virtual void SetTexture(int no, float fx, float fy);	// テクスチャ座標設定
+	virtual void SetTexture(int num, int ix, int iy);
 
 	virtual LPDx3DTex9 GetTexture(LPDx3DTex9 *texture);
 
@@ -48,13 +49,13 @@ protected:
 
 public:
 	virtual int  Init(const char *texture);
-	virtual int  Init(D3DXCOLOR color);
+	virtual int  Init(DxColor color);
 	virtual int  Init(float posX, float posY, float sizX, float sizY, const char *texture);
 	virtual int  Init(float posX, float posY, float sizX, float sizY);
 	virtual void SetVertex();
 	        void SetVertex(int no, Vector3 vtx);
-	        void SetVertex(DxColor dif);
 	        void SetVertex(int no, DxColor dif);
+	        void SetVertex(        DxColor dif);
 	        void SetVertex(int no, Vector2 tex);
 
 	virtual void SetStatus(float posX, float posY, float sizX, float sizY);

@@ -8,7 +8,7 @@
 typedef D3DCOLOR COLOR, DxColor;
 
 
-#define RANDOMCOLOR (0x000000FF | Random(0, 255) << 24 | Random(0, 255) << 16 | Random(0, 255) << 8)
+#define RANDOMCOLOR (0xFF000000 | Random(0, 255) << 16 | Random(0, 255) << 8 | Random(0, 255))
 
 
 #define DX9COLOR_BLACK       (0xFF000000)

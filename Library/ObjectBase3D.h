@@ -65,6 +65,7 @@ public:
 /* 3D六面体オブジェクト *///*
 class C3DCubeObject
 {
+protected:
 	Dx9Texture Texture;
 	Vertex3D   Face[6][4];
 	Vector3 Position;	// 位置座標
@@ -75,17 +76,17 @@ public:
 	C3DCubeObject();
 
 	void LoadTexture(const char *texture);
+	void LoadTexture(LPDx3DTex9 texture);
 	void Release();
 
 	int  Init(Vector3 pos, Vector3 rot, Vector3 size);
 	int  Init(Vector3 pos, Vector3 size);
 	int  Init(Vector3 pos, Vector3 rot, float size);
 	int  Init(Vector3 pos, float size);
+	int  MakeVertex(void);
 
 	void Draw();
 
-private:
-	int  MakeVertex(void);
 };
 
 

@@ -4,7 +4,7 @@
 //
 //=============================================================================
 #include "Result.h"
-#include "Library/Input.h"
+#include "Library/DirectInput.h"
 #include "Library/Fade.h"
 #include "Library/ObjectBase2D.h"
 

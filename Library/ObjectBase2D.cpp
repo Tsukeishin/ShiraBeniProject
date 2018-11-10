@@ -150,12 +150,16 @@ void _ObjectBase2D::SetVertex(float sizeX, float sizeY)
 	Vertex[2].coord = Vector3(-sizeX,  sizeY, 0.0f);
 	Vertex[3].coord = Vector3( sizeX,  sizeY, 0.0f);
 }
-void _ObjectBase2D::SetVertex(D3DXCOLOR color)
+void _ObjectBase2D::SetVertex(DxColor dif)
 {
-	Vertex[0].diffuse = color;
-	Vertex[1].diffuse = color;
-	Vertex[2].diffuse = color;
-	Vertex[3].diffuse = color;
+	Vertex[0].diffuse = dif;
+	Vertex[1].diffuse = dif;
+	Vertex[2].diffuse = dif;
+	Vertex[3].diffuse = dif;
+}
+void _ObjectBase2D::SetTexture(int no, float fx, float fy)
+{
+	Vertex[no].uv = Vector2(fx, fy);
 }
 void _ObjectBase2D::SetTexture(int num, int ix, int iy)
 {
@@ -203,11 +207,11 @@ int  C2DObject::Init(const char *texture)
 	SetVertex();
 	return 0;
 }
-int  C2DObject::Init(D3DXCOLOR color)
+int  C2DObject::Init(DxColor color)
 {
 	this->ObjectBase2D::Init();
 	SetVertex();
-	SetVertex(color);
+	ObjectBase2D::SetVertex(color);
 	return 0;
 }
 int  C2DObject::Init(float posX, float posY, float sizX, float sizY, const char *texture)
@@ -254,16 +258,16 @@ void C2DObject::SetVertex(int no, Vector3 coord)
 {
 	Vertex[no].coord = coord;
 }
-void C2DObject::SetVertex(        DxColor dif)
+void C2DObject::SetVertex(int no, DxColor dif)
+{
+	Vertex[0].diffuse = dif;
+}
+void C2DObject::SetVertex(DxColor dif)
 {
 	Vertex[0].diffuse = dif;
 	Vertex[1].diffuse = dif;
 	Vertex[2].diffuse = dif;
 	Vertex[3].diffuse = dif;
-}
-void C2DObject::SetVertex(int no, DxColor dif)
-{
-	Vertex[0].diffuse = dif;
 }
 void C2DObject::SetVertex(int no, Vector2 uv)
 {
