@@ -48,7 +48,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	UNREFERENCED_PARAMETER(lpCmdLine);		// 無くても良いけど、警告が出る（未使用宣言）
 
 	// TSUシステムを初期化
-	if (FAILED(TsuSystem::Initialize(hInstance)))
+	if (FAILED(TsuSystem::Initialize(hInstance, "ShirabeniProject", "白紅プロジェクト")))
 		return -1;
 
 	// その他初期化
@@ -143,12 +143,14 @@ void Update(void)
 //=============================================================================
 void Draw(void)
 {
+	LPDIRECT3DDEVICE9 pDevice = Direct3D::GetD3DDevice();
+
 	// バックバッファ＆Ｚバッファのクリア
-	Direct3D::GetD3DDevice()->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
+	pDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
 		D3DCOLOR_RGBA(0x66, 0x88, 0xFF, 0xFF), 1.0f, 0);
 
 	// Direct3Dによる描画の開始
-	if (SUCCEEDED(Direct3D::GetD3DDevice()->BeginScene()))
+	if (SUCCEEDED(pDevice->BeginScene()))
 	{
 		// 3軸ガイドライン
 		TsuSystem::CoordinateAxis();
@@ -167,11 +169,17 @@ void Draw(void)
 		Dx9Line::Draw();
 
 		// Direct3Dによる描画の終了
-		Direct3D::GetD3DDevice()->EndScene();
+		pDevice->EndScene();
 	}
 
 	// バックバッファとフロントバッファの入れ替え
-	Direct3D::GetD3DDevice()->Present(NULL, NULL, NULL, NULL);
+	if (pDevice->Present(NULL, NULL, NULL, NULL) == D3DERR_DEVICELOST)
+	{// デバイスロストの検知
+		if (pDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
+		{// 復帰可能の場合
+			Direct3D::ResetDevice();
+		}
+	}
 }
 
 

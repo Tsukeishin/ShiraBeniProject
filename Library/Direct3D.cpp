@@ -122,6 +122,36 @@ void Direct3D::Uninit()
 	}
 }
 
+//----デバイスのリセット
+void Direct3D::ResetDevice()
+{
+	dx_pD3DDevice->Reset(&dxD3Dpp);
+
+	/* レンダリングステートパラメータの設定 */
+	dx_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);				// 裏面をカリング
+//	dx_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);			// 裏面も表示
+	dx_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);						// Zバッファを使用
+	dx_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);			// αブレンドを行う(offにすると軽くなる)
+	dx_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);		// αソースカラーの指定
+	dx_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);	// αデスティネーションカラーの指定
+//	dx_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);		// αディストネーションカラーの指定
+
+	/* サンプラーステートパラメータの設定 */
+	dx_pD3DDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);	// テクスチャアドレッシング方法(U値)を設定
+	dx_pD3DDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);	// テクスチャアドレッシング方法(V値)を設定
+	dx_pD3DDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);	// テクスチャ縮小フィルタモードを設定
+	dx_pD3DDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);	// テクスチャ拡大フィルタモードを設定
+
+	/* テクスチャステージ加算合成処理 */
+	dx_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);	// アルファブレンディング処理
+	dx_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);	// 最初のアルファ引数
+	dx_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);	// ２番目のアルファ引数
+
+	/* ライティングモードを有効 */
+	dx_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+}
+
 
 //----取得関数--------
 LPDIRECT3DDEVICE9 Direct3D::GetD3DDevice()

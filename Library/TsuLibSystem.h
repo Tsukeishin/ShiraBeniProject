@@ -6,7 +6,7 @@
 typedef class TSULibrarySystem
 {
 public:
-	static HRESULT Initialize(HINSTANCE hInstance);
+	static HRESULT Initialize(HINSTANCE hInstance, LPCSTR className, LPCSTR windowName);
 	static void    Uninitialize();
 	static void    CoordinateAxis();
 

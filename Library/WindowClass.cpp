@@ -7,8 +7,8 @@
 HINSTANCE   WindowClass::Instance = NULL;
 HWND        WindowClass::Handle = NULL;
 MSG         WindowClass::Message;
-LPCSTR      WindowClass::ClassName = "TsuApplication";
-LPCSTR      WindowClass::WindowName = "ツーアプリ";
+LPCSTR      WindowClass::ClassName;
+LPCSTR      WindowClass::WindowName;
 bool        WindowClass::WindowMode = true;
 
 

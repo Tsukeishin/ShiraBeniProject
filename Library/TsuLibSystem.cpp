@@ -6,10 +6,10 @@
 #include "Sound.h"
 #include "DebugProcess.h"
 
-HRESULT TSULibrarySystem::Initialize(HINSTANCE hInstance)
+HRESULT TSULibrarySystem::Initialize(HINSTANCE hInstance, LPCSTR className, LPCSTR windowName)
 {
 	// ウィンドウ初期化
-	if (FAILED(WindowClass::Init(hInstance, "ShirabeniProject", "白紅プロジェクト")))
+	if (FAILED(WindowClass::Init(hInstance, className, windowName)))
 		return -1;
 
 	// グラフィックス初期化(Direct3D)

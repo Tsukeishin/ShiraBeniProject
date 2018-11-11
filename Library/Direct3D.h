@@ -16,9 +16,11 @@ class Direct3D
 	static D3DPRESENT_PARAMETERS    dxD3Dpp;		// プレゼンテーションパラメータ
 
 public:
-	static HRESULT  Init(HWND hWnd, bool bWindowMode);
-	static void     Uninit();
+	static HRESULT Init(HWND hWnd, bool bWindowMode);
+	static void    Uninit();
 	
+	static void ResetDevice();
+
 	static LPDIRECT3DDEVICE9 GetD3DDevice();
 };
 
