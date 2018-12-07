@@ -477,7 +477,7 @@ HRESULT DirectInput::GamePad::Init(void)			// パッド初期化
 //==== ゲームパッドの更新 ====//
 HRESULT DirectInput::GamePad::Update(void)
 {
-	HRESULT			result;
+	HRESULT			result = S_OK;
 	DIJOYSTATE2		dijs;
 	int				i;
 
