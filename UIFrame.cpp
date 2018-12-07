@@ -6,7 +6,7 @@ C2DObject UIFrame::Frame;
 int UIFrame::Init()
 {
 	Frame.Init(SCREEN_CENTER_X, SCREEN_CENTER_Y, SCREEN_CENTER_X, SCREEN_CENTER_Y);
-	Frame.LoadTexture("Local/フレーム.png");
+	Frame.LoadTexture("data/作業/フレーム.png");
 
 	return 0;
 }
