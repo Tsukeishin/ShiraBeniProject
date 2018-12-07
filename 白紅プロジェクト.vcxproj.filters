@@ -28,8 +28,8 @@
     <Filter Include="_Library">
       <UniqueIdentifier>{9ebe14d6-630f-4ef7-823c-7ea4217a4515}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameSys\Object\Enemy">
-      <UniqueIdentifier>{67e4c966-dd35-48e2-81c8-024d66c1e02f}</UniqueIdentifier>
+    <Filter Include="GameSys\UI">
+      <UniqueIdentifier>{14a23beb-6b1f-46bf-b728-cd96f7f59d86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +121,10 @@
       <Filter>_Library</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>GameSys\Object\Enemy</Filter>
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="UIFrame.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -219,7 +222,10 @@
       <Filter>_Library</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>GameSys\Object\Enemy</Filter>
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="UIFrame.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
