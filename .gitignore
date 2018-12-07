@@ -31,6 +31,7 @@
 *.pidb
 *.svclog
 *.scc
+*.csv
 
 #Visual Studio 2017
 
